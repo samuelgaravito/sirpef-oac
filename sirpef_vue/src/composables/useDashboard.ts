@@ -385,7 +385,7 @@ export default () => {
         return {
           label: DatosResumen.value[element][0],
           data: DatosResumen.value[element][1],
-          bg: element == "d" ? '#C80036' : element == "e" ? '#BFCFE7' : element == "b" ? " #31A9D9" : "#1A4968"
+          bg: element == "d" ? '#C80036' : element == "e" ? '#8B5CF6' : element == "b" ? " #31A9D9" : "#1A4968"
         }
       })
     }
