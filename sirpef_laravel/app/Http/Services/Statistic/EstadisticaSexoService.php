@@ -72,6 +72,24 @@ class EstadisticaSexoService
         $totalVotoFaltanteMasculino = $getMissingParticipationCount('M');
         $totalVotoFaltanteFemenino = $getMissingParticipationCount('F');
 
+        // Rangos de edad
+        $rangos = [
+            '18-25' => [18, 25],
+            '26-35' => [26, 35],
+            '36-45' => [36, 45],
+            '46-55' => [46, 55],
+            '56-65' => [56, 65],
+            '66+'   => [66, 120],
+        ];
+
+        $edadEstadistica = [];
+        foreach ($rangos as $label => $rango) {
+            $queryRango = clone $personasQuery;
+            $edadEstadistica[$label] = $queryRango->whereNotNull('fecha_nacimiento')
+                ->whereRaw("TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) BETWEEN ? AND ?", [$rango[0], $rango[1]])
+                ->count();
+        }
+
         // Devolver el resultado en formato JSON
         return response()->json([
             'M'=>[  
@@ -80,11 +98,12 @@ class EstadisticaSexoService
                 'faltantes' => $totalVotoFaltanteMasculino,
             ],
             'F'=>[
-                'Si' => $totalVotoTrueFemenino,
-                'No' => $totalVotoFalseFemenino,
+                'Si' => $totalVotoTrueFemenino, 
+                'No' => $totalVotoFalseFemenino, 
                 'faltantes' => $totalVotoFaltanteFemenino,
             ],
             'Total_de_Personal' => $countTotal,
+            'Estadistica_Edad' => $edadEstadistica,
         ]);
     }
 }
