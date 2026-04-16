@@ -27,13 +27,11 @@ class ShowCasosService {
             // Obtener el registro con todas las relaciones necesarias,
             // ¡Incluyendo la cadena de relaciones para parroquia, municipio y estado!
             $registro = Registro::with([
-                'eventoPersona.persona.parroquia.municipio.estado', // <-- ¡CADENA DE RELACIONES AÑADIDA!
+                'eventoPersona.persona.parroquia.municipio.estado',
                 'tipoCaso',
                 'puntoCuenta',
                 'proveedores',
                 'recaudos',
-                // Si Registro tiene la relación 'seguimientos' y quieres incluirla:
-                // 'seguimientos.estatusTramite',
             ])->findOrFail($id);
 
             // Obtener persona relacionada
@@ -61,8 +59,9 @@ class ShowCasosService {
 
                 // Información de persona
                 'persona' => [
+                    'id' => $persona->id ?? null,
                     'nombre_completo' => $persona->nombre_completo ?? 'No disponible',
-                     'ministerio_id' => $persona->ministerio_id ?? 'No disponible',
+                    'ministerio_id' => $persona->ministerio_id ?? 'No disponible',
                     'genero' => self::formatearGenero($persona->sexo ?? null),
                     'cedula' => $persona->cedula ?? 'No disponible',
                     'fecha_nacimiento' => $persona->fecha_nacimiento ?? 'No disponible',
@@ -81,8 +80,6 @@ class ShowCasosService {
                         'id' => $estado->id ?? null,
                         'nombre' => $estado->estado ?? 'No disponible',
                     ],
-                    // Si también necesitas ministerio de la persona:
-                    // 'ministerio_id' => $persona->ministerio_id ?? 'No disponible',
                 ],
 
                 // Información de punto de cuenta
