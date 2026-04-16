@@ -1,0 +1,21 @@
+.table-data__wrapper{
+    overflow: auto;
+}
+.table-data {
+    width: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+}
+.table-data thead {
+    background-color: #010C41;
+    color: white;
+}
+
+.table-data th {
+    height: 60px
+}
+
+.table-data td {
+    @apply px-6 py-4 whitespace-nowrap;
+    background-color: white;
+}

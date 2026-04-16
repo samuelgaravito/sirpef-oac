@@ -1,0 +1,36 @@
+.aider*
+# Dependencias de PHP (Composer)
+sirpef_laravel/vendor/
+
+*.tar.gz
+*.log
+sirpef_laravel/storage/logs/
+
+# Dependencias de JavaScript (Node)
+sirpef_vue/node_modules/
+npm-debug.log
+yarn-error.log
+
+# Configuración y variables de entorno (CRÍTICO)
+.env
+.env.backup
+.env.production
+php_errors.log
+
+# IDEs y Editores
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+
+# Sistema Operativo
+.DS_Store
+Thumbs.db
+
+# Compilados de Frontend (opcional, según tu flujo)
+/public/storage
+/public/hot
+/public/js
+/public/css
+/mix-manifest.json

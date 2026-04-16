@@ -1,0 +1,13 @@
+version: "3.9"
+services:
+ oac_vue_dev_9020:    
+    image: node:18.8.0
+    ports:
+      - "9002:81"
+    volumes:
+      - ".:/app"
+    environment:
+      NODE_ENV: development
+    working_dir: /app
+    container_name: oac_vue_dev_9020
+    command: sh -c "cd /app; npm install; npm run dev -- --host"

@@ -1,0 +1,37 @@
+version: "3.9"
+services:
+  oac_laravel_dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: oac_laravel_dev
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www/html/
+    volumes:
+      - ./:/var/www/html/
+      - ./php/laravel.ini:/usr/local/etc/php/conf.d/laravel.ini
+    networks:
+      - store-network
+  oac_laravel_nginx_dev:
+    depends_on:
+      - oac_laravel_dev
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: oac_laravel_nginx_dev
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - "./public:/var/www/html/public:ro"
+      - "./storage/app:/var/www/html/storage/app:ro"
+    ports:
+      - "443:80"
+    networks:
+      - store-network      
+
+networks:
+  store-network:
+    driver: bridge
+
+

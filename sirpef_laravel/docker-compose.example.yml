@@ -1,0 +1,31 @@
+services:
+  sirpef_php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sirpef_php
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www/html/
+    volumes:
+      - ./:/var/www/html/
+      - ./php/laravel.ini:/usr/local/etc/php/conf.d/laravel.ini
+    networks:
+      - sirpef-network
+  sirpef_nginx:
+    depends_on:
+      - sirpef_php
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: sirpef_nginx
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "442:80"
+    networks:
+      - sirpef-network      
+
+networks:
+  sirpef-network:
+    driver: bridge
