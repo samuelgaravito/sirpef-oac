@@ -5,33 +5,58 @@
       <input type="file" @change="handleImage($event, 'header')" class="mt-1 block w-full text-xs text-gray-500 file:mr-4 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:bg-blue-50 file:text-blue-700" />
     </div>
 
-    <div class="space-y-2">
-      <div>
-        <label class="block text-xs font-bold text-gray-700 uppercase">PARA:</label>
-        <select v-model="form.para" class="border p-2 rounded w-full text-xs">
-          <option value="TAVIANA ELAINE ALQUINZONES FERNÁNDEZ\nDirectora General (E) de la Oficina de Gestión Administrativa">TAVIANA ELAINE ALQUINZONES FERNÁNDEZ (OGA)</option>
-          <option value="samuel\nDirectora General (E) de la Oficina de Gestión Administrativa">samuel  (OGA)</option>
-        </select>
-      </div>
-      <div>
-        <label class="block text-xs font-bold text-gray-700 uppercase">DE:</label>
-        <select v-model="form.de" class="border p-2 rounded w-full text-xs">
-          <option value="OLIVER EZEQUIEL RIVAS PAREDES\nDirector General (E) de la Oficina de Atención al Ciudadano">OLIVER EZEQUIEL RIVAS PAREDES (OAC)</option>
-        </select>
+    <div class="space-y-4 bg-gray-50 p-4 rounded-lg border border-gray-200">
+      <h3 class="text-sm font-bold text-blue-800 border-b pb-1">DESTINATARIO Y REMITENTE</h3>
+      
+      <div class="space-y-3">
+        <div class="p-2 bg-white rounded border">
+          <label class="block text-[10px] font-bold text-gray-500 uppercase">PARA (Nombre):</label>
+          <input v-model="form.para_nombre" type="text" class="w-full text-xs p-1 border-b focus:border-blue-500 outline-none" placeholder="Ej: TAVIANA ELAINE ALQUINZONES FERNÁNDEZ" />
+          <label class="block text-[10px] font-bold text-gray-500 uppercase mt-2">PARA (Cargo):</label>
+          <textarea v-model="form.para_cargo" class="w-full text-xs p-1 border-b focus:border-blue-500 outline-none resize-none" rows="2" placeholder="Ej: Directora General (E) de la Oficina..."></textarea>
+        </div>
+
+        <div class="p-2 bg-white rounded border">
+          <label class="block text-[10px] font-bold text-gray-500 uppercase">DE (Nombre):</label>
+          <input v-model="form.de_nombre" type="text" class="w-full text-xs p-1 border-b focus:border-blue-500 outline-none" placeholder="Ej: OLIVER EZEQUIEL RIVAS PAREDES" />
+          <label class="block text-[10px] font-bold text-gray-500 uppercase mt-2">DE (Cargo):</label>
+          <textarea v-model="form.de_cargo" class="w-full text-xs p-1 border-b focus:border-blue-500 outline-none resize-none" rows="2" placeholder="Ej: Director General (E) de la Oficina..."></textarea>
+        </div>
       </div>
     </div>
 
-    <div class="border p-3 rounded bg-gray-50">
-      <label class="block text-xs font-bold mb-2">Tabla de Datos</label>
-      <div class="grid grid-cols-2 gap-2">
-        <input v-model="form.tabla.pto_cta" placeholder="Pto/Cta" class="border p-1 text-xs" />
-        <input v-model="form.tabla.fecha" placeholder="Fecha" class="border p-1 text-xs" />
-        <input v-model="form.tabla.solicitante" placeholder="Solicitante" class="border p-1 text-xs" />
-        <input v-model="form.tabla.ci" placeholder="C.I." class="border p-1 text-xs" />
-        <input v-model="form.tabla.monto" placeholder="Monto" class="border p-1 text-xs" />
-        <input v-model="form.tabla.proveedor" placeholder="Proveedor" class="border p-1 text-xs" />
+    <div class="space-y-4 bg-gray-50 p-4 rounded-lg border border-gray-200">
+      <h3 class="text-sm font-bold text-blue-800 border-b pb-1">TABLA DE DATOS</h3>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="flex flex-col">
+          <label class="text-[10px] font-bold text-gray-500">N° PUNTO CUENTA</label>
+          <input v-model="form.tabla.pto_cta" placeholder="000/2026" class="border p-2 rounded text-xs focus:ring-1 focus:ring-blue-400 outline-none" />
+        </div>
+        <div class="flex flex-col">
+          <label class="text-[10px] font-bold text-gray-500">FECHA PUNTO CUENTA</label>
+          <input v-model="form.tabla.fecha" type="date" class="border p-2 rounded text-xs focus:ring-1 focus:ring-blue-400 outline-none" />
+        </div>
+        <div class="flex flex-col">
+          <label class="text-[10px] font-bold text-gray-500">SOLICITANTE</label>
+          <input v-model="form.tabla.solicitante" class="border p-2 rounded text-xs focus:ring-1 focus:ring-blue-400 outline-none" />
+        </div>
+        <div class="flex flex-col">
+          <label class="text-[10px] font-bold text-gray-500">CÉDULA</label>
+          <input v-model="form.tabla.ci" class="border p-2 rounded text-xs focus:ring-1 focus:ring-blue-400 outline-none" />
+        </div>
+        <div class="flex flex-col">
+          <label class="text-[10px] font-bold text-gray-500">MONTO (BS.)</label>
+          <input v-model="form.tabla.monto" class="border p-2 rounded text-xs focus:ring-1 focus:ring-blue-400 outline-none" />
+        </div>
+        <div class="flex flex-col">
+          <label class="text-[10px] font-bold text-gray-500">PROVEEDOR</label>
+          <input v-model="form.tabla.proveedor" class="border p-2 rounded text-xs focus:ring-1 focus:ring-blue-400 outline-none" />
+        </div>
       </div>
-      <input v-model="form.tabla.total" placeholder="TOTAL" class="border p-1 text-xs w-full mt-2" />
+      <div class="flex flex-col mt-2">
+        <label class="text-[10px] font-bold text-gray-500">MONTO TOTAL</label>
+        <input v-model="form.tabla.total" class="border p-2 rounded text-xs font-bold bg-blue-50 focus:ring-1 focus:ring-blue-400 outline-none" />
+      </div>
     </div>
 
 

@@ -8,7 +8,7 @@
     <!-- Metadata -->
     <div class="flex justify-between mb-8">
       <div class="font-bold">OAC-M N°{{ data.tabla?.pto_cta }}</div>
-      <div>Caracas, {{ data.tabla?.fecha }}</div>
+      <div>Caracas, {{ formatDisplayDate(data.tabla?.fecha) }}</div>
     </div>
 
     <div class="text-center font-bold text-lg mb-6">MEMORÁNDUM</div>
@@ -16,12 +16,18 @@
     <!-- Receiver/Sender -->
     <div class="space-y-4 mb-8">
       <div class="flex">
-        <span class="font-bold w-24">PARA:</span>
-        <div class="flex-1 whitespace-pre-line">{{ data.para?.replace('\\n', '\n') }}</div>
+        <span class="font-bold w-24 shrink-0">PARA:</span>
+        <div class="flex-1">
+          <div class="font-bold">{{ data.para_nombre }}</div>
+          <div class="whitespace-pre-line">{{ data.para_cargo }}</div>
+        </div>
       </div>
       <div class="flex">
-        <span class="font-bold w-24">DE:</span>
-        <div class="flex-1 whitespace-pre-line">{{ data.de?.replace('\\n', '\n') }}</div>
+        <span class="font-bold w-24 shrink-0">DE:</span>
+        <div class="flex-1">
+          <div class="font-bold">{{ data.de_nombre }}</div>
+          <div class="whitespace-pre-line">{{ data.de_cargo }}</div>
+        </div>
       </div>
       <div class="flex">
         <span class="font-bold w-24">ASUNTO:</span>
@@ -33,7 +39,7 @@
 
     <!-- Body -->
     <div class="text-justify mb-6 whitespace-pre-line">
-      Tengo a bien dirigirme a usted, en la oportunidad de remitir Punto de Cuenta N°{{ data.tabla?.pto_cta }} de fecha {{ data.tabla?.fecha }}, para sufragar monto para intervención quirúrgica (cesárea), debidamente aprobado, el cual se especifica a continuación:
+      Tengo a bien dirigirme a usted, en la oportunidad de remitir Punto de Cuenta N°{{ data.tabla?.pto_cta }} de fecha {{ formatDisplayDate(data.tabla?.fecha) }}, para sufragar monto para intervención quirúrgica (cesárea), debidamente aprobado, el cual se especifica a continuación:
     </div>
 
     <!-- Table -->
@@ -51,7 +57,7 @@
       <tbody>
         <tr class="h-10 text-center">
           <td class="border border-gray-400 p-1">{{ data.tabla?.pto_cta }}</td>
-          <td class="border border-gray-400 p-1">{{ data.tabla?.fecha }}</td>
+          <td class="border border-gray-400 p-1">{{ formatDisplayDate(data.tabla?.fecha) }}</td>
           <td class="border border-gray-400 p-1">{{ data.tabla?.solicitante }}</td>
           <td class="border border-gray-400 p-1">{{ data.tabla?.ci }}</td>
           <td class="border border-gray-400 p-1">{{ data.tabla?.monto }}</td>
@@ -71,8 +77,8 @@
     <!-- Signature -->
     <div class="mt-8 text-center uppercase">
       <div class="mb-8 lowercase">Atentamente,</div>
-      <div class="font-bold">{{ data.de?.replace('\\n', '\n').split('\n')[0] }}</div>
-      <div class="text-[10px] leading-tight max-w-lg mx-auto">{{ data.de?.replace('\\n', '\n').split('\n')[1] }}</div>
+      <div class="font-bold">{{ data.de_nombre }}</div>
+      <div class="text-[10px] leading-tight max-w-lg mx-auto">{{ data.de_cargo }}</div>
       <div v-if="data.resolucion" class="text-[9px] mt-1 leading-tight max-w-sm mx-auto text-gray-600 font-sans">
         {{ data.resolucion }}
       </div>
@@ -93,6 +99,13 @@
 defineProps({
   data: Object
 });
+
+const formatDisplayDate = (dateStr) => {
+  if (!dateStr) return '00/00/0000';
+  const [year, month, day] = dateStr.split('-');
+  if (!year || !month || !day) return dateStr;
+  return `${day}/${month}/${year}`;
+};
 </script>
 
 <style scoped>
