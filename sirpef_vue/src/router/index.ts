@@ -34,6 +34,12 @@ const routes: Array<RouteRecordRaw> = [
     meta: { middleware: [auth] },
     component: () => import("@/views/unidades_adscritas.vue").then(m => m.default)
   },
+  {
+    path: "/oac/memos",
+    name: "oac.memos",
+    meta: { middleware: [auth] },
+    component: () => import("@/modules/Memos/views/MemoView.vue").then(m => m.default)
+  },
 
   ...AuthRoutes.map(route => route),
   ...AuthorizationRoutes.map(route => route),
