@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Memorándum</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f9; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #333; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
+        input, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        textarea { height: 150px; resize: vertical; }
+        button { background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; width: 100%; }
+        button:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Crear Memorándum</h2>
+    <form id="memoForm">
+        <div class="form-group">
+            <label for="codigo">Código/Número de Memo:</label>
+            <input type="text" id="codigo" placeholder="Ej: MEMO-001-2024" required>
+        </div>
+        <div class="form-group">
+            <label for="para">Para:</label>
+            <input type="text" id="para" placeholder="Nombre del destinatario" required>
+        </div>
+        <div class="form-group">
+            <label for="de">De:</label>
+            <input type="text" id="de" placeholder="Tu nombre o cargo" required>
+        </div>
+        <div class="form-group">
+            <label for="asunto">Asunto:</label>
+            <input type="text" id="asunto" placeholder="Motivo del memorándum" required>
+        </div>
+        <div class="form-group">
+            <label for="fecha">Fecha:</label>
+            <input type="date" id="fecha" required>
+        </div>
+        <div class="form-group">
+            <label for="cuerpo">Contenido:</label>
+            <textarea id="cuerpo" placeholder="Escriba el mensaje aquí..." required></textarea>
+        </div>
+        <button type="button" onclick="generatePDF()">Descargar PDF</button>
+    </form>
+</div>
+
+<script>
+    async function generatePDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        
+        const codigo = document.getElementById('codigo').value;
+        const para = document.getElementById('para').value;
+        const de = document.getElementById('de').value;
+        const asunto = document.getElementById('asunto').value;
+        const fecha = document.getElementById('fecha').value;
+        const cuerpo = document.getElementById('cuerpo').value;
+
+        if(!codigo || !para || !de || !asunto || !fecha || !cuerpo) {
+            alert("Por favor complete todos los campos");
+            return;
+        }
+
+        // Diseño del PDF
+        doc.setFontSize(18);
+        doc.setFont("helvetica", "bold");
+        doc.text("MEMORÁNDUM", 105, 20, { align: "center" });
+        
+        doc.setFontSize(12);
+        doc.text(`Código: ${codigo}`, 20, 40);
+        
+        doc.line(20, 45, 190, 45); // Línea divisoria
+        
+        doc.text(`PARA:`, 20, 55);
+        doc.setFont("helvetica", "normal");
+        doc.text(para, 50, 55);
+        
+        doc.setFont("helvetica", "bold");
+        doc.text(`DE:`, 20, 65);
+        doc.setFont("helvetica", "normal");
+        doc.text(de, 50, 65);
+        
+        doc.setFont("helvetica", "bold");
+        doc.text(`ASUNTO:`, 20, 75);
+        doc.setFont("helvetica", "normal");
+        doc.text(asunto, 50, 75);
+        
+        doc.setFont("helvetica", "bold");
+        doc.text(`FECHA:`, 20, 85);
+        doc.setFont("helvetica", "normal");
+        doc.text(fecha, 50, 85);
+        
+        doc.line(20, 90, 190, 90); // Segunda línea
+        
+        // Cuerpo del mensaje con ajuste de línea
+        const splitText = doc.splitTextToSize(cuerpo, 170);
+        doc.text(splitText, 20, 105);
+        
+        // Firma
+        const pageHeight = doc.internal.pageSize.height;
+        doc.text("__________________________", 105, pageHeight - 40, { align: "center" });
+        doc.text("Firma", 105, pageHeight - 30, { align: "center" });
+
+        doc.save(`Memorandum_${codigo}.pdf`);
+    }
+</script>
+
+</body>
+</html>
