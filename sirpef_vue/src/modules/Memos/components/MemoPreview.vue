@@ -39,7 +39,7 @@
 
     <!-- Body -->
     <div class="text-justify mb-6 whitespace-pre-line">
-      Tengo a bien dirigirme a usted, en la oportunidad de remitir Punto de Cuenta N°{{ data.tabla?.pto_cta || '000/2026' }} de fecha {{ formatDisplayDate(data.tabla?.fecha) }}{{ data.motivo }} debidamente aprobado, el cual se especifica a continuación:
+      Tengo a bien dirigirme a usted, en la oportunidad de remitir Punto de Cuenta N°{{ data.tabla?.pto_cta || '000/2026' }} de fecha {{ formatDisplayDate(data.tabla?.fecha) }}, {{ data.motivo }}, debidamente aprobado, el cual se especifica a continuación:
     </div>
 
     <!-- Table -->
@@ -63,10 +63,12 @@
           <td class="border border-gray-400 p-1">{{ data.tabla?.monto }}</td>
           <td class="border border-gray-400 p-1">{{ data.tabla?.proveedor }}</td>
         </tr>
-        <tr class="h-8">
-          <td colspan="3" class="border border-gray-400"></td>
-          <td class="border border-gray-400 p-1 text-center font-bold">TOTAL</td>
-          <td class="border border-gray-400 p-1 text-center font-bold">{{ data.tabla?.total }}</td>
+        <tr class="h-8 text-center">
+          <td class="border border-gray-400"></td>
+          <td class="border border-gray-400"></td>
+          <td class="border border-gray-400"></td>
+          <td class="border border-gray-400 p-1 font-bold italic text-right pr-2">TOTAL</td>
+          <td class="border border-gray-400 p-1 font-bold">{{ data.tabla?.total }}</td>
           <td class="border border-gray-400"></td>
         </tr>
       </tbody>

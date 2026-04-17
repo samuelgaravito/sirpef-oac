@@ -38,7 +38,7 @@ const memoData = ref({
   de_nombre: 'OLIVER EZEQUIEL RIVAS PAREDES',
   de_cargo: 'Director General (E) de la Oficina de Atención al Ciudadano',
   asunto: 'Remisión de Punto de Cuenta N° 000/2026.',
-  motivo: ', para sufragar monto para intervención quirúrgica (cesárea), ',
+  motivo: 'para sufragar monto para intervención quirúrgica (cesárea)',
   tabla: {
     pto_cta: '000/2026',
     fecha: '2026-01-01',

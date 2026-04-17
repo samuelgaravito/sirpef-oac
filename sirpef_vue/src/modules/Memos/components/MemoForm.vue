@@ -70,9 +70,9 @@
       <div class="space-y-2">
         <label class="block text-[10px] font-bold text-gray-500 uppercase">MOTIVO (Editable):</label>
         <div class="text-[10px] text-gray-600 bg-white p-2 rounded border mb-1 italic">
-          "Tengo a bien dirigirme a usted, en la oportunidad de remitir Punto de Cuenta N° [N°] de fecha [FECHA] <span class="text-blue-600 font-bold underline">...MOTIVO...</span> debidamente aprobado, el cual se especifica a continuación:"
+          "Tengo a bien dirigirme a usted, en la oportunidad de remitir Punto de Cuenta N° [N°] de fecha [FECHA], <span class="text-blue-600 font-bold underline">...MOTIVO...</span>, debidamente aprobado, el cual se especifica a continuación:"
         </div>
-        <textarea v-model="form.motivo" class="w-full text-xs p-2 border rounded focus:ring-1 focus:ring-blue-400 outline-none resize-none" rows="3" placeholder=", para sufragar monto para..."></textarea>
+        <textarea v-model="form.motivo" class="w-full text-xs p-2 border rounded focus:ring-1 focus:ring-blue-400 outline-none resize-none" rows="3" placeholder="para sufragar monto para..."></textarea>
       </div>
     </div>
 
