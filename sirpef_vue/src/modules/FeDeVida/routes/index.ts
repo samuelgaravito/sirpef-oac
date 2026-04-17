@@ -42,7 +42,12 @@ export default [
         component: () => import("@/modules/FeDeVida/views/checkPDF.vue").then(m => m.default),
     },
 
-
+      {
+        path: '/oac/memos',
+        name: 'oac.memos.create',
+        meta: { middleware: [auth], layout: "default" },
+        component: () => import('@/modules/OAC/views/Memos/MemoCreate.vue'),
+    },
     {
         path: "/cases/types",
         name: "types-cases",
