@@ -39,7 +39,7 @@ const memoData = ref({
   cuerpo: 'Tengo a bien dirigirme a usted, en la oportunidad de remitir Punto de Cuenta N°000/2026 de fecha 00/00/2026, para sufragar monto para intervención quirúrgica (cesárea), debidamente aprobado, el cual se especifica a continuación:',
   tabla: {
     pto_cta: '000/2026',
-    fecha: '00/00/2026',
+    fecha: '01/01/2026',
     solicitante: '',
     ci: '',
     monto: '',

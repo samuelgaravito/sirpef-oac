@@ -8,7 +8,7 @@
     <!-- Metadata -->
     <div class="flex justify-between mb-8">
       <div class="font-bold">OAC-M N°{{ data.tabla?.pto_cta }}</div>
-      <div>Caracas, {{ data.fecha }}</div>
+      <div>Caracas, {{ data.tabla?.fecha }}</div>
     </div>
 
     <div class="text-center font-bold text-lg mb-6">MEMORÁNDUM</div>
@@ -17,11 +17,11 @@
     <div class="space-y-4 mb-8">
       <div class="flex">
         <span class="font-bold w-24">PARA:</span>
-        <div class="flex-1 whitespace-pre-line">{{ data.para }}</div>
+        <div class="flex-1 whitespace-pre-line">{{ data.para?.replace('\\n', '\n') }}</div>
       </div>
       <div class="flex">
         <span class="font-bold w-24">DE:</span>
-        <div class="flex-1 whitespace-pre-line">{{ data.de }}</div>
+        <div class="flex-1 whitespace-pre-line">{{ data.de?.replace('\\n', '\n') }}</div>
       </div>
       <div class="flex">
         <span class="font-bold w-24">ASUNTO:</span>
@@ -70,9 +70,9 @@
 
     <!-- Signature -->
     <div class="mt-8 text-center uppercase">
-      <div class="mb-8">Atentamente,</div>
-      <div class="font-bold">{{ data.de.split('\n')[0] }}</div>
-      <div class="text-[10px] leading-tight max-w-lg mx-auto">{{ data.de.split('\n')[1] }}</div>
+      <div class="mb-8 lowercase">Atentamente,</div>
+      <div class="font-bold">{{ data.de?.replace('\\n', '\n').split('\n')[0] }}</div>
+      <div class="text-[10px] leading-tight max-w-lg mx-auto">{{ data.de?.replace('\\n', '\n').split('\n')[1] }}</div>
       <div v-if="data.resolucion" class="text-[9px] mt-1 leading-tight max-w-sm mx-auto text-gray-600 font-sans">
         {{ data.resolucion }}
       </div>

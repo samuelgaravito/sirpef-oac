@@ -5,8 +5,19 @@
       <input type="file" @change="handleImage($event, 'header')" class="mt-1 block w-full text-xs text-gray-500 file:mr-4 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:bg-blue-50 file:text-blue-700" />
     </div>
 
-    <div class="grid grid-cols-1 gap-2">
-      <input v-model="form.fecha" placeholder="Fecha (Caracas, 00/00/2026)" class="border p-2 rounded w-full text-sm" />
+    <div class="space-y-2">
+      <div>
+        <label class="block text-xs font-bold text-gray-700 uppercase">PARA:</label>
+        <select v-model="form.para" class="border p-2 rounded w-full text-xs">
+          <option value="TAVIANA ELAINE ALQUINZONES FERNÁNDEZ\nDirectora General (E) de la Oficina de Gestión Administrativa">TAVIANA ELAINE ALQUINZONES FERNÁNDEZ (OGA)</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-gray-700 uppercase">DE:</label>
+        <select v-model="form.de" class="border p-2 rounded w-full text-xs">
+          <option value="OLIVER EZEQUIEL RIVAS PAREDES\nDirector General (E) de la Oficina de Atención al Ciudadano">OLIVER EZEQUIEL RIVAS PAREDES (OAC)</option>
+        </select>
+      </div>
     </div>
 
     <div class="border p-3 rounded bg-gray-50">
