@@ -66,13 +66,13 @@
     </div>
 
     <div class="space-y-4 bg-gray-50 p-4 rounded-lg border border-gray-200">
-      <h3 class="text-sm font-bold text-blue-800 border-b pb-1">CUERPO DEL MEMORÁNDUM</h3>
+      <h3 class="text-sm font-bold text-blue-800 border-b pb-1">MOTIVO DEL MEMORÁNDUM</h3>
       <div class="space-y-2">
-        <label class="block text-[10px] font-bold text-gray-500 uppercase">TEXTO ANTES DE DATOS:</label>
-        <div class="text-[10px] text-blue-600 bg-blue-50 p-2 rounded border border-blue-100 mb-1">
-          Nota: El N° de Punto de Cuenta y la Fecha se insertarán automáticamente.
+        <label class="block text-[10px] font-bold text-gray-500 uppercase">MOTIVO (Editable):</label>
+        <div class="text-[10px] text-gray-600 bg-white p-2 rounded border mb-1 italic">
+          "Tengo a bien dirigirme a usted, en la oportunidad de remitir Punto de Cuenta N° [N°] de fecha [FECHA] <span class="text-blue-600 font-bold underline">...MOTIVO...</span> debidamente aprobado, el cual se especifica a continuación:"
         </div>
-        <textarea v-model="form.cuerpo_prefix" class="w-full text-xs p-2 border rounded focus:ring-1 focus:ring-blue-400 outline-none resize-none" rows="3"></textarea>
+        <textarea v-model="form.motivo" class="w-full text-xs p-2 border rounded focus:ring-1 focus:ring-blue-400 outline-none resize-none" rows="3" placeholder=", para sufragar monto para..."></textarea>
       </div>
     </div>
 
