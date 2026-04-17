@@ -65,6 +65,17 @@
       </div>
     </div>
 
+    <div class="space-y-4 bg-gray-50 p-4 rounded-lg border border-gray-200">
+      <h3 class="text-sm font-bold text-blue-800 border-b pb-1">CUERPO DEL MEMORÁNDUM</h3>
+      <div class="space-y-2">
+        <label class="block text-[10px] font-bold text-gray-500 uppercase">TEXTO ANTES DE DATOS:</label>
+        <div class="text-[10px] text-blue-600 bg-blue-50 p-2 rounded border border-blue-100 mb-1">
+          Nota: El N° de Punto de Cuenta y la Fecha se insertarán automáticamente.
+        </div>
+        <textarea v-model="form.cuerpo_prefix" class="w-full text-xs p-2 border rounded focus:ring-1 focus:ring-blue-400 outline-none resize-none" rows="3"></textarea>
+      </div>
+    </div>
+
     <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
       <label class="block text-[10px] font-bold text-gray-500 uppercase">RESOLUCIÓN (Firma):</label>
       <textarea v-model="form.resolucion" class="w-full text-[10px] p-2 mt-1 border rounded focus:ring-1 focus:ring-blue-400 outline-none resize-none" rows="3"></textarea>

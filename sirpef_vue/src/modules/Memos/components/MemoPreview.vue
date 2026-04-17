@@ -39,7 +39,11 @@
 
     <!-- Body -->
     <div class="text-justify mb-6 whitespace-pre-line">
-      Tengo a bien dirigirme a usted, en la oportunidad de remitir Punto de Cuenta N°{{ data.tabla?.pto_cta }} de fecha {{ formatDisplayDate(data.tabla?.fecha) }}, para sufragar monto para intervención quirúrgica (cesárea), debidamente aprobado, el cual se especifica a continuación:
+      {{ 
+        data.cuerpo_prefix
+          .replace('[PTO_CTA]', data.tabla?.pto_cta || '000/2026')
+          .replace('[FECHA]', formatDisplayDate(data.tabla?.fecha))
+      }}
     </div>
 
     <!-- Table -->
