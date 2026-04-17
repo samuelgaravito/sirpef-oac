@@ -10,6 +10,7 @@
         <label class="block text-xs font-bold text-gray-700 uppercase">PARA:</label>
         <select v-model="form.para" class="border p-2 rounded w-full text-xs">
           <option value="TAVIANA ELAINE ALQUINZONES FERNÁNDEZ\nDirectora General (E) de la Oficina de Gestión Administrativa">TAVIANA ELAINE ALQUINZONES FERNÁNDEZ (OGA)</option>
+          <option value="samuel\nDirectora General (E) de la Oficina de Gestión Administrativa">samuel  (OGA)</option>
         </select>
       </div>
       <div>
