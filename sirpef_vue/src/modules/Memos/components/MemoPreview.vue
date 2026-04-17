@@ -79,9 +79,15 @@
     </div>
 
     <!-- Signature -->
-    <div class="mt-8 text-center uppercase">
+    <div class="mt-8 text-center uppercase relative">
       <div class="mb-8 lowercase">Atentamente,</div>
-      <div class="font-bold">{{ data.de_nombre }}</div>
+      
+      <!-- Digital Signature Image -->
+      <div v-if="data.firmaImg" class="absolute left-1/2 -translate-x-1/2 -top-4 w-32 h-auto pointer-events-none z-0">
+        <img :src="data.firmaImg" class="w-full opacity-90" />
+      </div>
+
+      <div class="font-bold relative z-10">{{ data.de_nombre }}</div>
       <div class="text-[10px] leading-tight max-w-lg mx-auto">{{ data.de_cargo }}</div>
       <div v-if="data.resolucion" class="text-[9px] mt-1 leading-tight max-w-sm mx-auto text-gray-600 font-sans">
         {{ data.resolucion }}

@@ -1,11 +1,24 @@
 <template>
   <div class="space-y-4">
-    <div>
-      <label class="block text-xs font-bold text-gray-700 uppercase">Logo Encabezado</label>
-      <input type="file" @change="handleImage($event, 'header')" class="mt-1 block w-full text-xs text-gray-500 file:mr-4 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:bg-blue-50 file:text-blue-700" />
+    <!-- Tab Navigation -->
+    <div class="flex border-b border-gray-200">
+      <button 
+        @click="activeTab = 'info'"
+        :class="['px-4 py-2 text-xs font-bold uppercase transition-colors', activeTab === 'info' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-500 hover:text-gray-700']"
+      >
+        Información
+      </button>
+      <button 
+        @click="activeTab = 'assets'"
+        :class="['px-4 py-2 text-xs font-bold uppercase transition-colors', activeTab === 'assets' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-500 hover:text-gray-700']"
+      >
+        Recursos Visuales
+      </button>
     </div>
 
-    <div class="space-y-4 bg-gray-50 p-4 rounded-lg border border-gray-200">
+    <!-- Info Tab -->
+    <div v-if="activeTab === 'info'" class="space-y-4">
+      <div class="space-y-4 bg-gray-50 p-4 rounded-lg border border-gray-200">
       <h3 class="text-sm font-bold text-blue-800 border-b pb-1">DESTINATARIO Y REMITENTE</h3>
       
       <div class="space-y-3">
@@ -76,23 +89,47 @@
       </div>
     </div>
 
-    <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
-      <label class="block text-[10px] font-bold text-gray-500 uppercase">RESOLUCIÓN (Firma):</label>
-      <textarea v-model="form.resolucion" class="w-full text-[10px] p-2 mt-1 border rounded focus:ring-1 focus:ring-blue-400 outline-none resize-none" rows="3"></textarea>
+      <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+        <label class="block text-[10px] font-bold text-gray-500 uppercase">RESOLUCIÓN (Firma):</label>
+        <textarea v-model="form.resolucion" class="w-full text-[10px] p-2 mt-1 border rounded focus:ring-1 focus:ring-blue-400 outline-none resize-none" rows="3"></textarea>
+      </div>
     </div>
 
+    <!-- Assets Tab -->
+    <div v-if="activeTab === 'assets'" class="space-y-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+      <h3 class="text-sm font-bold text-blue-800 border-b pb-1 uppercase">Imágenes y Recursos</h3>
+      
+      <div class="space-y-4">
+        <div class="p-3 bg-white rounded border">
+          <label class="block text-[10px] font-bold text-gray-700 uppercase mb-2">Logo Encabezado</label>
+          <input type="file" @change="handleImage($event, 'header')" class="block w-full text-xs text-gray-500 file:mr-4 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:bg-blue-50 file:text-blue-700" />
+          <p class="text-[9px] text-gray-400 mt-1">Sustituye la imagen superior del documento.</p>
+        </div>
 
-    <div>
-      <label class="block text-xs font-bold text-gray-700 uppercase">Logo Pie de Página</label>
-      <input type="file" @change="handleImage($event, 'footer')" class="mt-1 block w-full text-xs text-gray-500 file:mr-4 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:bg-blue-50 file:text-blue-700" />
+        <div class="p-3 bg-white rounded border">
+          <label class="block text-[10px] font-bold text-gray-700 uppercase mb-2">Firma Digital</label>
+          <input type="file" @change="handleImage($event, 'firma')" class="block w-full text-xs text-gray-500 file:mr-4 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:bg-blue-50 file:text-blue-700" />
+          <p class="text-[9px] text-gray-400 mt-1">Se mostrará sobre el nombre del remitente.</p>
+        </div>
+
+        <div class="p-3 bg-white rounded border">
+          <label class="block text-[10px] font-bold text-gray-700 uppercase mb-2">Logo Pie de Página</label>
+          <input type="file" @change="handleImage($event, 'footer')" class="block w-full text-xs text-gray-500 file:mr-4 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:bg-blue-50 file:text-blue-700" />
+          <p class="text-[9px] text-gray-400 mt-1">Sustituye la imagen inferior del documento.</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
+
 const props = defineProps({
   form: Object
 });
+
+const activeTab = ref('info');
 
 const personasPara = [
   { nombre: 'TAVIANA ELAINE ALQUINZONES FERNÁNDEZ', cargo: 'Directora General (E) de la Oficina de Gestión Administrativa' },
@@ -121,6 +158,7 @@ const handleImage = (event, type) => {
     reader.onload = (e) => {
       if (type === 'header') props.form.headerImg = e.target.result;
       if (type === 'footer') props.form.footerImg = e.target.result;
+      if (type === 'firma') props.form.firmaImg = e.target.result;
     };
     reader.readAsDataURL(file);
   }
