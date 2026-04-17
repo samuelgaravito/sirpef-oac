@@ -5,16 +5,9 @@
       <input type="file" @change="handleImage($event, 'header')" class="mt-1 block w-full text-xs text-gray-500 file:mr-4 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:bg-blue-50 file:text-blue-700" />
     </div>
 
-    <div class="grid grid-cols-2 gap-2">
-      <input v-model="form.codigo" placeholder="N° Código" class="border p-2 rounded w-full text-sm" />
-      <input v-model="form.fecha" placeholder="Fecha (Caracas, ...)" class="border p-2 rounded w-full text-sm" />
+    <div class="grid grid-cols-1 gap-2">
+      <input v-model="form.fecha" placeholder="Fecha (Caracas, 00/00/2026)" class="border p-2 rounded w-full text-sm" />
     </div>
-
-    <textarea v-model="form.para" placeholder="PARA:" class="border p-2 rounded w-full text-sm" rows="2"></textarea>
-    <textarea v-model="form.de" placeholder="DE:" class="border p-2 rounded w-full text-sm" rows="2"></textarea>
-    <input v-model="form.asunto" placeholder="ASUNTO:" class="border p-2 rounded w-full text-sm font-bold" />
-    
-    <textarea v-model="form.cuerpo" rows="3" placeholder="Contenido inicial..." class="border p-2 rounded w-full text-sm"></textarea>
 
     <div class="border p-3 rounded bg-gray-50">
       <label class="block text-xs font-bold mb-2">Tabla de Datos</label>
@@ -29,10 +22,6 @@
       <input v-model="form.tabla.total" placeholder="TOTAL" class="border p-1 text-xs w-full mt-2" />
     </div>
 
-    <textarea v-model="form.cuerpo_final" rows="2" placeholder="Cierre..." class="border p-2 rounded w-full text-sm"></textarea>
-
-    <input v-model="form.resolucion" placeholder="Resolución / Gaceta" class="border p-2 rounded w-full text-xs" />
-    <input v-model="form.iniciales" placeholder="Iniciales" class="border p-2 rounded w-full text-xs" />
 
     <div>
       <label class="block text-xs font-bold text-gray-700 uppercase">Logo Pie de Página</label>

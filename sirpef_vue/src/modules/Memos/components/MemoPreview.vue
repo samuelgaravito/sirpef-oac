@@ -7,7 +7,7 @@
 
     <!-- Metadata -->
     <div class="flex justify-between mb-8">
-      <div class="font-bold">{{ data.codigo }}</div>
+      <div class="font-bold">OAC-M N°{{ data.tabla?.pto_cta }}</div>
       <div>Caracas, {{ data.fecha }}</div>
     </div>
 
@@ -25,7 +25,7 @@
       </div>
       <div class="flex">
         <span class="font-bold w-24">ASUNTO:</span>
-        <div class="flex-1 font-bold">{{ data.asunto }}</div>
+        <div class="flex-1 font-bold">Remisión de Punto de Cuenta N° {{ data.tabla?.pto_cta }}.</div>
       </div>
     </div>
 
@@ -33,7 +33,7 @@
 
     <!-- Body -->
     <div class="text-justify mb-6 whitespace-pre-line">
-      {{ data.cuerpo }}
+      Tengo a bien dirigirme a usted, en la oportunidad de remitir Punto de Cuenta N°{{ data.tabla?.pto_cta }} de fecha {{ data.tabla?.fecha }}, para sufragar monto para intervención quirúrgica (cesárea), debidamente aprobado, el cual se especifica a continuación:
     </div>
 
     <!-- Table -->
