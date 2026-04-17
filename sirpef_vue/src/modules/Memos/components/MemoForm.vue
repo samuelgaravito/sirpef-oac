@@ -10,17 +10,23 @@
       
       <div class="space-y-3">
         <div class="p-2 bg-white rounded border">
-          <label class="block text-[10px] font-bold text-gray-500 uppercase">PARA (Nombre):</label>
-          <input v-model="form.para_nombre" type="text" class="w-full text-xs p-1 border-b focus:border-blue-500 outline-none" placeholder="Ej: TAVIANA ELAINE ALQUINZONES FERNÁNDEZ" />
-          <label class="block text-[10px] font-bold text-gray-500 uppercase mt-2">PARA (Cargo):</label>
-          <textarea v-model="form.para_cargo" class="w-full text-xs p-1 border-b focus:border-blue-500 outline-none resize-none" rows="2" placeholder="Ej: Directora General (E) de la Oficina..."></textarea>
+          <label class="block text-[10px] font-bold text-gray-500 uppercase">PARA:</label>
+          <select v-model="form.para_nombre" @change="updateCargo('para')" class="w-full text-xs p-1 border-b bg-transparent outline-none">
+            <option v-for="opt in personasPara" :key="opt.nombre" :value="opt.nombre">{{ opt.nombre }}</option>
+          </select>
+          <div class="mt-2 p-1 bg-gray-50 text-[10px] text-gray-600 italic border rounded">
+            {{ form.para_cargo }}
+          </div>
         </div>
 
         <div class="p-2 bg-white rounded border">
-          <label class="block text-[10px] font-bold text-gray-500 uppercase">DE (Nombre):</label>
-          <input v-model="form.de_nombre" type="text" class="w-full text-xs p-1 border-b focus:border-blue-500 outline-none" placeholder="Ej: OLIVER EZEQUIEL RIVAS PAREDES" />
-          <label class="block text-[10px] font-bold text-gray-500 uppercase mt-2">DE (Cargo):</label>
-          <textarea v-model="form.de_cargo" class="w-full text-xs p-1 border-b focus:border-blue-500 outline-none resize-none" rows="2" placeholder="Ej: Director General (E) de la Oficina..."></textarea>
+          <label class="block text-[10px] font-bold text-gray-500 uppercase">DE:</label>
+          <select v-model="form.de_nombre" @change="updateCargo('de')" class="w-full text-xs p-1 border-b bg-transparent outline-none">
+            <option v-for="opt in personasDe" :key="opt.nombre" :value="opt.nombre">{{ opt.nombre }}</option>
+          </select>
+          <div class="mt-2 p-1 bg-gray-50 text-[10px] text-gray-600 italic border rounded">
+            {{ form.de_cargo }}
+          </div>
         </div>
       </div>
     </div>
@@ -59,6 +65,11 @@
       </div>
     </div>
 
+    <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+      <label class="block text-[10px] font-bold text-gray-500 uppercase">RESOLUCIÓN (Firma):</label>
+      <textarea v-model="form.resolucion" class="w-full text-[10px] p-2 mt-1 border rounded focus:ring-1 focus:ring-blue-400 outline-none resize-none" rows="3"></textarea>
+    </div>
+
 
     <div>
       <label class="block text-xs font-bold text-gray-700 uppercase">Logo Pie de Página</label>
@@ -71,6 +82,26 @@
 const props = defineProps({
   form: Object
 });
+
+const personasPara = [
+  { nombre: 'TAVIANA ELAINE ALQUINZONES FERNÁNDEZ', cargo: 'Directora General (E) de la Oficina de Gestión Administrativa' },
+  { nombre: 'PERSONAL ADMINISTRATIVO 1', cargo: 'Cargo del personal 1' }
+];
+
+const personasDe = [
+  { nombre: 'OLIVER EZEQUIEL RIVAS PAREDES', cargo: 'Director General (E) de la Oficina de Atención al Ciudadano' },
+  { nombre: 'RESPONSABLE 2', cargo: 'Cargo del responsable 2' }
+];
+
+const updateCargo = (type) => {
+  if (type === 'para') {
+    const selected = personasPara.find(p => p.nombre === props.form.para_nombre);
+    if (selected) props.form.para_cargo = selected.cargo;
+  } else {
+    const selected = personasDe.find(p => p.nombre === props.form.de_nombre);
+    if (selected) props.form.de_cargo = selected.cargo;
+  }
+};
 
 const handleImage = (event, type) => {
   const file = event.target.files[0];

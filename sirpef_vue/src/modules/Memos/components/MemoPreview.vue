@@ -64,8 +64,9 @@
           <td class="border border-gray-400 p-1">{{ data.tabla?.proveedor }}</td>
         </tr>
         <tr>
-          <td colspan="4" class="border border-gray-400 p-1 text-center font-bold">TOTAL</td>
-          <td colspan="2" class="border border-gray-400 p-1 text-center">{{ data.tabla?.total }}</td>
+          <td colspan="3" class="border border-gray-400 p-1 text-center font-bold">TOTAL</td>
+          <td class="border border-gray-400 p-1 text-center font-bold">{{ data.tabla?.total }}</td>
+          <td colspan="2" class="border border-gray-400 bg-gray-50"></td>
         </tr>
       </tbody>
     </table>
