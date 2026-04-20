@@ -49,7 +49,15 @@
       <div class="grid grid-cols-2 gap-3">
         <div class="flex flex-col">
           <label class="text-[10px] font-bold text-gray-500">N° PUNTO CUENTA</label>
-          <input v-model="form.tabla.pto_cta" placeholder="000/2026" class="border p-2 rounded text-xs focus:ring-1 focus:ring-blue-400 outline-none" />
+          <div class="flex space-x-1">
+            <input v-model="form.tabla.pto_cta" placeholder="000/2026" class="flex-1 border p-2 rounded text-xs focus:ring-1 focus:ring-blue-400 outline-none" />
+            <button @click="buscarPuntoCuenta(form.tabla.pto_cta)" class="bg-blue-600 hover:bg-blue-700 text-white px-2 rounded text-xs transition-colors">
+              <span v-if="!loadingSearch">🔍</span>
+              <span v-else class="animate-spin inline-block">⏳</span>
+            </button>
+          </div>
+          <p v-if="form.punto_cuenta_id" class="text-[9px] text-green-600 font-bold mt-1">✓ Punto de Cuenta vinculado (ID: {{ form.punto_cuenta_id }})</p>
+          <p v-else-if="form.tabla.pto_cta && form.tabla.pto_cta.length >= 3" class="text-[9px] text-red-500 mt-1">⚠ No vinculado</p>
         </div>
         <div class="flex flex-col">
           <label class="text-[10px] font-bold text-gray-500">FECHA PUNTO CUENTA</label>
@@ -132,9 +140,11 @@ const props = defineProps({
 });
 
 const http = new Http(init);
+const loadingSearch = ref(false);
 
 const buscarPuntoCuenta = async (numero) => {
   if (!numero || numero.length < 3) return;
+  loadingSearch.value = true;
   try {
     const response = await http.get(`oac/punto-cuenta-numero/${encodeURIComponent(numero)}`);
     if (response.data && response.data.success) {
@@ -148,9 +158,13 @@ const buscarPuntoCuenta = async (numero) => {
       props.form.tabla.total = pc.monto;
     } else {
       props.form.punto_cuenta_id = null;
+      alert('Punto de Cuenta no encontrado');
     }
   } catch (error) {
     console.error("Error buscando punto de cuenta", error);
+    props.form.punto_cuenta_id = null;
+  } finally {
+    loadingSearch.value = false;
   }
 };
 
