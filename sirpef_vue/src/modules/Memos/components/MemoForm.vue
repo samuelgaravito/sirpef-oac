@@ -139,12 +139,15 @@ const buscarPuntoCuenta = async (numero) => {
     const response = await http.get(`oac/punto-cuenta-numero/${encodeURIComponent(numero)}`);
     if (response.data && response.data.success) {
       const pc = response.data.data;
+      props.form.punto_cuenta_id = pc.id;
       props.form.tabla.fecha = pc.fecha;
       props.form.tabla.solicitante = pc.solicitante;
       props.form.tabla.ci = pc.cedula;
       props.form.tabla.monto = pc.monto;
       props.form.tabla.proveedor = pc.proveedor;
       props.form.tabla.total = pc.monto;
+    } else {
+      props.form.punto_cuenta_id = null;
     }
   } catch (error) {
     console.error("Error buscando punto de cuenta", error);
@@ -152,8 +155,10 @@ const buscarPuntoCuenta = async (numero) => {
 };
 
 watch(() => props.form.tabla.pto_cta, (newVal) => {
-  if (newVal && newVal.includes('/')) {
+  if (newVal && newVal.length >= 3) {
     buscarPuntoCuenta(newVal);
+  } else {
+    props.form.punto_cuenta_id = null;
   }
 });
 

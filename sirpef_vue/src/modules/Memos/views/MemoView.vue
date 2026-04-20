@@ -81,6 +81,7 @@ const history = ref([]);
 const memoData = ref({
   headerImg: null,
   footerImg: null,
+  punto_cuenta_id: null,
   codigo: 'OAC-M N°000/2026',
   fecha: '01/01/2026',
   para_nombre: 'TAVIANA ELAINE ALQUINZONES FERNÁNDEZ',
@@ -108,15 +109,25 @@ const printMemo = () => {
 };
 
 const saveMemo = async () => {
+  // Validaciones
+  if (!memoData.value.punto_cuenta_id) {
+    alert('Debe vincular un Punto de Cuenta válido existente en el sistema.');
+    return;
+  }
+  if (!memoData.value.asunto || !memoData.value.motivo) {
+    alert('El asunto y el motivo son obligatorios.');
+    return;
+  }
+
   try {
     const payload = {
       numero: memoData.value.tabla.pto_cta,
       fecha: memoData.value.tabla.fecha,
       asunto: memoData.value.asunto,
-      cuerpo: memoData.value.motivo, // O el campo que represente el cuerpo
+      cuerpo: memoData.value.motivo,
       remitente: memoData.value.de_nombre,
       destinatario: memoData.value.para_nombre,
-      registro_id: null // Ajustar si tienes el ID del registro relacionado
+      registro_id: memoData.value.punto_cuenta_id
     };
 
     const response = await saveMemorandum(payload);
