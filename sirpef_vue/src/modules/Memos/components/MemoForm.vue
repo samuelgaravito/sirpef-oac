@@ -143,25 +143,32 @@ const http = new Http(init);
 const loadingSearch = ref(false);
 
 const buscarPuntoCuenta = async (numero) => {
-  if (!numero || numero.length < 3) return;
+  if (!numero) return;
   loadingSearch.value = true;
   try {
-    const response = await http.get(`oac/punto-cuenta-numero/${encodeURIComponent(numero)}`);
+    // Aseguramos que el slash inicial esté presente y usamos el numero tal cual
+    const response = await http.get(`/oac/punto-cuenta-numero/${encodeURIComponent(numero)}`);
+    
     if (response.data && response.data.success) {
       const pc = response.data.data;
       props.form.punto_cuenta_id = pc.id;
       props.form.tabla.fecha = pc.fecha;
       props.form.tabla.solicitante = pc.presentado_por;
-      props.form.tabla.ci = ''; // Si no viene en el PC, se deja para llenar
+      props.form.tabla.ci = ''; 
       props.form.tabla.monto = pc.monto || '';
       props.form.tabla.proveedor = ''; 
       props.form.tabla.total = pc.monto || '';
+      
+      // Opcional: Actualizar el asunto si el PC lo trae
+      if (pc.asunto) {
+        props.form.asunto = `Remisión de Punto de Cuenta N° ${pc.numero_punto}.`;
+      }
     } else {
       props.form.punto_cuenta_id = null;
-      alert('Punto de Cuenta no encontrado');
+      console.warn('Punto de Cuenta no encontrado');
     }
   } catch (error) {
-    console.error("Error buscando punto de cuenta", error);
+    console.error("Error buscando punto de cuenta:", error);
     props.form.punto_cuenta_id = null;
   } finally {
     loadingSearch.value = false;
@@ -169,9 +176,8 @@ const buscarPuntoCuenta = async (numero) => {
 };
 
 watch(() => props.form.tabla.pto_cta, (newVal) => {
-  if (newVal && newVal.length >= 3) {
-    buscarPuntoCuenta(newVal);
-  } else {
+  // Limpiamos el ID si el campo se vacía
+  if (!newVal) {
     props.form.punto_cuenta_id = null;
   }
 });
