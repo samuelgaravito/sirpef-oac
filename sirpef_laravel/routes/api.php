@@ -19,6 +19,7 @@ use App\Http\Controllers\NewLoginController;
 use App\Http\Controllers\FeDeVidaController;
 use App\Http\Controllers\AtencionCiudadanoController;
 use App\Http\Controllers\TipoCasoController;
+use App\Http\Controllers\MemorandumController;
 
 use App\Http\Controllers\PersonaAutorizadaController;
 
@@ -78,10 +79,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/findByCedula/{cedula}', [AtencionCiudadanoController::class, 'findByCedula']);
 
-
-
-
-
+    // Memorandum
+    Route::post('/memorandum', [MemorandumController::class, 'store']);
 
     //crud tipo de casos
     Route::get('/tipoCaso', [TipoCasoController::class, 'index']);
