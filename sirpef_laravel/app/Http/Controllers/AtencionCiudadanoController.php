@@ -8,6 +8,7 @@ use App\Http\Services\AtencionCiudadano\CreateCasosService;
 use App\Http\Services\AtencionCiudadano\IndexCasosService;
 use App\Http\Services\AtencionCiudadano\ShowCasosService;
 use App\Http\Services\AtencionCiudadano\GetPuntoCuentaService;
+use App\Http\Services\AtencionCiudadano\GetPuntoCuentaByNumeroService;
 use App\Http\Services\AtencionCiudadano\StorePuntoCuentaService;
 use App\Http\Services\AtencionCiudadano\ObtenerCedulaService;
 use App\Http\Services\AtencionCiudadano\AtencionCiudadanoService;
@@ -47,6 +48,11 @@ class AtencionCiudadanoController extends Controller
     public function getPuntoCuenta(int $id): JsonResponse
     {
         return GetPuntoCuentaService::getPuntoCuenta($id);
+    }
+
+    public function getPuntoCuentaByNumero(string $numero): JsonResponse
+    {
+        return GetPuntoCuentaByNumeroService::getByNumero($numero);
     }
 
     public function store(Request $request, $registroId)
