@@ -15,7 +15,7 @@ class GetPuntoCuentaByNumeroService {
      */
     public static function getByNumero(string $numero): JsonResponse
     {
-        $puntoCuenta = PuntoCuenta::where('nro_punto_cuenta', $numero)->first();
+        $puntoCuenta = PuntoCuenta::where('numero_punto', $numero)->first();
 
         if (!$puntoCuenta) {
             return response()->json([
@@ -27,13 +27,21 @@ class GetPuntoCuentaByNumeroService {
         return response()->json([
             'success' => true,
             'data' => [
-                'id' => $puntoCuenta->id,
-                'numero' => $puntoCuenta->nro_punto_cuenta,
-                'fecha' => $puntoCuenta->fecha_punto_cuenta,
-                'solicitante' => $puntoCuenta->solicitante,
-                'cedula' => $puntoCuenta->cedula,
-                'monto' => $puntoCuenta->monto_total,
-                'proveedor' => $puntoCuenta->proveedor,
+                'id'                  => $puntoCuenta->id,
+                'presentado_a'        => $puntoCuenta->presentado_a,
+                'presentado_por'      => $puntoCuenta->presentado_por,
+                'fecha'               => $puntoCuenta->fecha->format('Y-m-d'),
+                'numero_punto'        => $puntoCuenta->numero_punto,
+                'asunto'              => $puntoCuenta->asunto,
+                'exposicion_motivos'  => $puntoCuenta->exposicion_motivos,
+                'propuesta'           => $puntoCuenta->propuesta,
+                'decision'            => $puntoCuenta->decision,
+                'otras_instrucciones' => $puntoCuenta->otras_instrucciones,
+                'anexos'              => (bool) $puntoCuenta->anexos,
+                'cargo_a'             => $puntoCuenta->cargo_a,
+                'cargo_por'           => $puntoCuenta->cargo_por,
+                'resolucion_1'        => $puntoCuenta->resolucion_1,
+                'resolucion_2'        => $puntoCuenta->resolucion_2,
             ]
         ], 200);
     }
