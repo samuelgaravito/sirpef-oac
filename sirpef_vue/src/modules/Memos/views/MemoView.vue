@@ -73,6 +73,7 @@
 import { ref, onMounted } from 'vue';
 import MemoForm from '../components/MemoForm.vue';
 import MemoPreview from '../components/MemoPreview.vue';
+import { saveMemorandum } from '../../FeDeVida/services/MemorandumService';
 
 const viewMode = ref('editor');
 const history = ref([]);
@@ -106,11 +107,29 @@ const printMemo = () => {
   window.print();
 };
 
-const saveMemo = () => {
-  const newEntry = JSON.parse(JSON.stringify(memoData.value));
-  history.value.unshift(newEntry);
-  localStorage.setItem('memo_history', JSON.stringify(history.value));
-  alert('Memorándum guardado en el historial');
+const saveMemo = async () => {
+  try {
+    const payload = {
+      numero: memoData.value.tabla.pto_cta,
+      fecha: memoData.value.tabla.fecha,
+      asunto: memoData.value.asunto,
+      cuerpo: memoData.value.motivo, // O el campo que represente el cuerpo
+      remitente: memoData.value.de_nombre,
+      destinatario: memoData.value.para_nombre,
+      registro_id: null // Ajustar si tienes el ID del registro relacionado
+    };
+
+    const response = await saveMemorandum(payload);
+    
+    if (response.success) {
+      const newEntry = JSON.parse(JSON.stringify(memoData.value));
+      history.value.unshift(newEntry);
+      alert('Memorándum guardado exitosamente en el servidor');
+    }
+  } catch (error) {
+    console.error(error);
+    alert('Error al guardar el memorándum en el servidor');
+  }
 };
 
 const loadMemo = (memo) => {
@@ -121,15 +140,11 @@ const loadMemo = (memo) => {
 const deleteFromHistory = (index) => {
   if (confirm('¿Está seguro de eliminar este registro?')) {
     history.value.splice(index, 1);
-    localStorage.setItem('memo_history', JSON.stringify(history.value));
   }
 };
 
 onMounted(() => {
-  const saved = localStorage.getItem('memo_history');
-  if (saved) {
-    history.value = JSON.parse(saved);
-  }
+  // Aquí podrías cargar el historial desde el backend si implementas el index()
 });
 </script>
 
