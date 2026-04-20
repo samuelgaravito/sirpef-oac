@@ -13,6 +13,7 @@ class Memorandum extends Model
     protected $table = 'tbl_memorandums';
 
     protected $fillable = [
+        'punto_cuenta_id',
         'codigo',
         'de',
         'para',

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('tbl_memorandums', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('punto_cuenta_id')->constrained('tbl_punto_cuenta');
             $table->string('codigo')->unique();
             $table->string('de');
             $table->string('para');
