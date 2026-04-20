@@ -68,6 +68,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //punto de cuenta
     Route::get('/punto-cuenta/{id}', [AtencionCiudadanoController::class, 'getPuntoCuenta']);
+    Route::get('/punto-cuenta-numero/{numero}', [AtencionCiudadanoController::class, 'getPuntoCuentaByNumero']);
     Route::post('/crear-punto/{registroId}', [AtencionCiudadanoController::class, 'store']);
     Route::put('/puntos-cuenta/{id}', [AtencionCiudadanoController::class, 'updatePuntoCuenta']);
     Route::put('estatus-puntos-cuenta/{puntoCuentaId}', [AtencionCiudadanoController::class, 'PuntoCuentaEstatus']);

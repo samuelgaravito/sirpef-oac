@@ -123,10 +123,38 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import { Http } from '@/utils/Http';
+import init from '@/utils/Http/init';
 
 const props = defineProps({
   form: Object
+});
+
+const http = new Http(init);
+
+const buscarPuntoCuenta = async (numero) => {
+  if (!numero || numero.length < 3) return;
+  try {
+    const response = await http.get(`oac/punto-cuenta-numero/${encodeURIComponent(numero)}`);
+    if (response.data && response.data.success) {
+      const pc = response.data.data;
+      props.form.tabla.fecha = pc.fecha;
+      props.form.tabla.solicitante = pc.solicitante;
+      props.form.tabla.ci = pc.cedula;
+      props.form.tabla.monto = pc.monto;
+      props.form.tabla.proveedor = pc.proveedor;
+      props.form.tabla.total = pc.monto;
+    }
+  } catch (error) {
+    console.error("Error buscando punto de cuenta", error);
+  }
+};
+
+watch(() => props.form.tabla.pto_cta, (newVal) => {
+  if (newVal && newVal.includes('/')) {
+    buscarPuntoCuenta(newVal);
+  }
 });
 
 const activeTab = ref('info');
