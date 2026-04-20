@@ -121,13 +121,13 @@ const saveMemo = async () => {
 
   try {
     const payload = {
-      numero: memoData.value.tabla.pto_cta,
-      fecha: memoData.value.tabla.fecha,
+      punto_cuenta_id: memoData.value.punto_cuenta_id,
+      codigo: memoData.value.tabla.pto_cta,
+      de: memoData.value.de_nombre,
+      para: memoData.value.para_nombre,
       asunto: memoData.value.asunto,
-      cuerpo: memoData.value.motivo,
-      remitente: memoData.value.de_nombre,
-      destinatario: memoData.value.para_nombre,
-      registro_id: memoData.value.punto_cuenta_id
+      fecha: memoData.value.tabla.fecha,
+      cuerpo: memoData.value.motivo
     };
 
     const response = await saveMemorandum(payload);

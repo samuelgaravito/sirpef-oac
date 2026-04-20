@@ -151,11 +151,11 @@ const buscarPuntoCuenta = async (numero) => {
       const pc = response.data.data;
       props.form.punto_cuenta_id = pc.id;
       props.form.tabla.fecha = pc.fecha;
-      props.form.tabla.solicitante = pc.solicitante;
-      props.form.tabla.ci = pc.cedula;
-      props.form.tabla.monto = pc.monto;
-      props.form.tabla.proveedor = pc.proveedor;
-      props.form.tabla.total = pc.monto;
+      props.form.tabla.solicitante = pc.presentado_por;
+      props.form.tabla.ci = ''; // Si no viene en el PC, se deja para llenar
+      props.form.tabla.monto = pc.monto || '';
+      props.form.tabla.proveedor = ''; 
+      props.form.tabla.total = pc.monto || '';
     } else {
       props.form.punto_cuenta_id = null;
       alert('Punto de Cuenta no encontrado');

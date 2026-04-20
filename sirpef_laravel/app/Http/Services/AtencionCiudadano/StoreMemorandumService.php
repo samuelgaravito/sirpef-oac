@@ -25,8 +25,8 @@ class StoreMemorandumService
                 }
 
                 $validated = $request->validate([
-                    'punto_cuenta_id' => 'required|exists:tbl_punto_cuenta,id',
-                    'codigo'          => 'required|string|unique:tbl_memorandums,codigo',
+                    'punto_cuenta_id' => 'required|exists:punto_cuentas,id',
+                    'codigo'          => 'required|string',
                     'de'              => 'required|string',
                     'para'            => 'required|string',
                     'asunto'          => 'required|string',
