@@ -13,12 +13,13 @@ class StoreMemorandumService
         return DB::transaction(function () use ($request) {
             try {
                 $memorandum = Memorandum::create([
-                    'numero' => $request->numero,
-                    'fecha' => $request->fecha,
-                    'asunto' => $request->asunto,
-                    'cuerpo' => $request->cuerpo,
-                    'remitente' => $request->remitente,
+                    'numero'       => $request->numero,
+                    'fecha'        => $request->fecha,
+                    'asunto'       => $request->asunto,
+                    'cuerpo'       => $request->cuerpo,
+                    'remitente'    => $request->remitente,
                     'destinatario' => $request->destinatario,
+                    'registro_id'  => $request->registro_id,
                 ]);
 
                 return response()->json([
