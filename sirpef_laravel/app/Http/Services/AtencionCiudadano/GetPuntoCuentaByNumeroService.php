@@ -15,7 +15,7 @@ class GetPuntoCuentaByNumeroService {
      */
     public static function getByNumero(string $numero): JsonResponse
     {
-        // Decodificamos el número por si viene con caracteres especiales desde la URL
+        // El número puede contener '/' que llega como parte del path gracias al regex en la ruta
         $numeroDecoded = urldecode($numero);
         
         $puntoCuenta = PuntoCuenta::where('numero_punto', $numeroDecoded)->first();

@@ -146,8 +146,9 @@ const buscarPuntoCuenta = async (numero) => {
   if (!numero) return;
   loadingSearch.value = true;
   try {
-    // Aseguramos que el slash inicial esté presente y usamos el numero tal cual
-    const response = await http.get(`/oac/punto-cuenta-numero/${encodeURIComponent(numero)}`);
+    // Usamos encodeURIComponent dos veces o aseguramos que el backend maneje el slash capturado por el regex '.*'
+    const encodedNumero = encodeURIComponent(numero).replace(/\//g, '%2F');
+    const response = await http.get(`/oac/punto-cuenta-numero/${encodedNumero}`);
     
     if (response.data && response.data.success) {
       const pc = response.data.data;
