@@ -51,7 +51,7 @@
           <label class="text-[10px] font-bold text-gray-500">N° PUNTO CUENTA</label>
           <div class="flex space-x-1">
             <input v-model="form.tabla.pto_cta" @keyup.enter="buscarPuntoCuenta(form.tabla.pto_cta)" placeholder="000/2026" class="flex-1 border p-2 rounded text-xs focus:ring-1 focus:ring-blue-400 outline-none" />
-            <button @click="buscarPuntoCuenta(form.tabla.pto_cta)" class="bg-yellow-500 hover:bg-yellow-600 text-white px-2 rounded text-xs transition-colors">
+            <button @click="buscarPuntoCuenta(form.tabla.pto_cta)" class="bg-blue-600 hover:bg-blue-700 text-white px-2 rounded text-xs transition-colors">
               <span v-if="!loadingSearch">🔍</span>
               <span v-else class="animate-spin inline-block">⏳</span>
             </button>

@@ -94,9 +94,6 @@
       </div>
     </div>
 
-    <div v-if="data.iniciales" class="absolute bottom-28 left-[1.5cm] text-[11pt] text-left">
-      {{ data.iniciales }}
-    </div>
 
     <!-- Footer Image -->
     <div v-if="data.footerImg" class="mt-auto absolute bottom-4 left-[1.5cm] right-[1.5cm]">
