@@ -82,10 +82,10 @@
 
 <script setup>
 import { ref, reactive } from 'vue'
-import { Http } from '@/utils/Http'
+import Http from '@/utils/Http/Http'
 import Swal from 'sweetalert2'
 
-const http = new Http({ baseURL: '/api' })
+const http = Http
 
 const loadingSearch = ref(false)
 const saving = ref(false)
@@ -114,7 +114,7 @@ const buscarPuntoCuenta = async () => {
   
   try {
     const encodedNumero = encodeURIComponent(form.numero_punto_cuenta)
-    const response = await http.get(`oac/memorandum/buscar-punto-cuenta/${encodedNumero}`)
+    const response = await http.get(`/api/oac/memorandum/buscar-punto-cuenta/${encodedNumero}`)
     if (response.data.success) {
       infoPuntoCuenta.solicitante = response.data.data.solicitante
       infoPuntoCuenta.cedula = response.data.data.cedula
@@ -133,7 +133,7 @@ const buscarPuntoCuenta = async () => {
 const save = async () => {
   saving.value = true
   try {
-    const response = await http.post('oac/memorandum', form)
+    const response = await http.post('/api/oac/memorandum', form)
     if (response.data.success) {
       Swal.fire('Guardado', 'Memorándum creado correctamente', 'success')
       // Reset form or redirect
