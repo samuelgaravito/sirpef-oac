@@ -41,7 +41,7 @@ class StoreMemorandumService
                 'data' => [
                     'id' => $puntoCuenta->id,
                     'numero_punto' => $puntoCuenta->numero_punto,
-                    'solicitante' => $persona ? $persona->nombre_completo : 'No asignado',
+                    'solicitante' => $persona ? $persona->nombre_completo : 'No ',
                     'solicitante_id' => $persona ? $persona->id : null,
                     'cedula' => $persona ? $persona->cedula : 'N/A',
                 ]
