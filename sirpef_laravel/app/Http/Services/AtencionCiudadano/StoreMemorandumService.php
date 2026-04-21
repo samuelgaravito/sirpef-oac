@@ -13,6 +13,48 @@ use Illuminate\Support\Facades\Log;
 class StoreMemorandumService
 {
     /**
+     * Busca un Punto de Cuenta por su número y devuelve los datos de la persona asociada.
+     *
+     * @param string $numero
+     * @return JsonResponse
+     */
+    public static function buscarPuntoCuenta(string $numero): JsonResponse
+    {
+        try {
+            $puntoCuenta = PuntoCuenta::where('numero_punto', $numero)
+                ->with(['registros.eventoPersona.persona'])
+                ->first();
+
+            if (!$puntoCuenta) {
+                return response()->json([
+                    'message' => 'Punto de Cuenta no encontrado',
+                    'success' => false
+                ], 404);
+            }
+
+            // Intentamos obtener la persona desde el primer registro asociado
+            $registro = $puntoCuenta->registros->first();
+            $persona = $registro ? $registro->eventoPersona->persona : null;
+
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'id' => $puntoCuenta->id,
+                    'numero_punto' => $puntoCuenta->numero_punto,
+                    'solicitante' => $persona ? $persona->nombre_completo : 'No asignado',
+                    'cedula' => $persona ? $persona->cedula : 'N/A',
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error al buscar el Punto de Cuenta',
+                'error' => $e->getMessage(),
+                'success' => false
+            ], 500);
+        }
+    }
+
+    /**
      * Store a new memorandum record.
      *
      * @param Request $request
