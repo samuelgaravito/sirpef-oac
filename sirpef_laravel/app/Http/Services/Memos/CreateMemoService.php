@@ -32,16 +32,16 @@ class CreateMemoService
                 ], 404);
             }
 
-            // Intentamos obtener la persona desde el primer registro asociado
-            $registro = $puntoCuenta->registros->first();
-            $persona = $registro ? $registro->eventoPersona->persona : null;
+            // Intentamos obtener la persona desde el primer registro asociado que tenga la relación completa
+            $registro = $puntoCuenta->registros->whereNotNull('evento_persona_id')->first();
+            $persona = ($registro && $registro->eventoPersona) ? $registro->eventoPersona->persona : null;
 
             return response()->json([
                 'success' => true,
                 'data' => [
                     'id' => $puntoCuenta->id,
                     'numero_punto' => $puntoCuenta->numero_punto,
-                    'solicitante' => $persona ? $persona->nombre_completo : 'No asignado',
+                    'solicitante' => $persona ? $persona->nombre_completo : 'No vinculado',
                     'solicitante_id' => $persona ? $persona->id : null,
                     'cedula' => $persona ? $persona->cedula : 'N/A',
                 ]

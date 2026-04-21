@@ -7,7 +7,7 @@
 
     <!-- Metadata -->
     <div class="flex justify-between mb-6">
-      <div class="font-bold uppercase">OAC-M N°{{ data.tabla?.pto_cta }}</div>
+      <div class="font-bold uppercase">OAC-M N°{{ data.tabla?.numero_punto }}</div>
       <div class="text-right">Caracas, {{ formatDisplayDate(data.tabla?.fecha) }}</div>
     </div>
 
@@ -31,7 +31,7 @@
       </div>
       <div class="flex">
         <span class="font-bold w-24">ASUNTO:</span>
-        <div class="flex-1 font-bold">Remisión de Punto de Cuenta N° {{ data.tabla?.pto_cta }}.</div>
+        <div class="flex-1 font-bold">Remisión de Punto de Cuenta N° {{ data.tabla?.numero_punto }}.</div>
       </div>
     </div>
 
@@ -39,7 +39,7 @@
 
     <!-- Body -->
     <div class="text-justify mb-6 whitespace-pre-line">
-      Tengo a bien dirigirme a usted, en la oportunidad de remitir Punto de Cuenta N°{{ data.tabla?.pto_cta || '000/2026' }} de fecha {{ formatDisplayDate(data.tabla?.fecha) }}, {{ data.motivo }}, debidamente aprobado, el cual se especifica a continuación:
+      Tengo a bien dirigirme a usted, en la oportunidad de remitir Punto de Cuenta N°{{ data.tabla?.numero_punto || '000/2026' }} de fecha {{ formatDisplayDate(data.tabla?.fecha) }}, {{ data.motivo }}, debidamente aprobado, el cual se especifica a continuación:
     </div>
 
     <!-- Table -->
@@ -56,10 +56,10 @@
       </thead>
       <tbody>
         <tr class="h-16 text-center align-middle">
-          <td class="border border-black p-1">{{ data.tabla?.pto_cta }}</td>
+          <td class="border border-black p-1">{{ data.tabla?.numero_punto }}</td>
           <td class="border border-black p-1">{{ formatDisplayDate(data.tabla?.fecha) }}</td>
           <td class="border border-black p-1">{{ data.tabla?.solicitante }}</td>
-          <td class="border border-black p-1">{{ data.tabla?.ci }}</td>
+          <td class="border border-black p-1">{{ data.tabla?.cedula }}</td>
           <td class="border border-black p-1">{{ data.tabla?.monto }}</td>
           <td class="border border-black p-1">{{ data.tabla?.proveedor }}</td>
         </tr>
