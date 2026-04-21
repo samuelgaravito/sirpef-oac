@@ -80,6 +80,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/findByCedula/{cedula}', [AtencionCiudadanoController::class, 'findByCedula']);
 
     // Memorandum
+    Route::get('/memorandum/buscar-punto-cuenta/{numero}', [MemorandumController::class, 'buscarPuntoCuenta'])->where('numero', '.*');
     Route::post('/memorandum', [MemorandumController::class, 'store']);
 
     //crud tipo de casos

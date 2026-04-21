@@ -113,7 +113,7 @@ const buscarPuntoCuenta = async () => {
   puntoCuentaValidado.value = false
   
   try {
-    const response = await http.get(`atencion-ciudadano/memorandum/buscar-punto-cuenta/${form.numero_punto_cuenta}`)
+    const response = await http.get(`oac/memorandum/buscar-punto-cuenta/${form.numero_punto_cuenta}`)
     if (response.data.success) {
       infoPuntoCuenta.solicitante = response.data.data.solicitante
       infoPuntoCuenta.cedula = response.data.data.cedula
