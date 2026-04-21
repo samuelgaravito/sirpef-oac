@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 
-class StoreMemorandumService
+class CreateMemoService
 {
     /**
      * Busca un Punto de Cuenta por su número y devuelve los datos de la persona asociada.
@@ -34,14 +34,14 @@ class StoreMemorandumService
 
             // Intentamos obtener la persona desde el primer registro asociado
             $registro = $puntoCuenta->registros->first();
-            $persona = ($registro && $registro->eventoPersona) ? $registro->eventoPersona->persona : null;
+            $persona = $registro ? $registro->eventoPersona->persona : null;
 
             return response()->json([
                 'success' => true,
                 'data' => [
                     'id' => $puntoCuenta->id,
                     'numero_punto' => $puntoCuenta->numero_punto,
-                    'solicitante' => $persona ? $persona->nombre_completo : 'No vinculado',
+                    'solicitante' => $persona ? $persona->nombre_completo : 'No asignado',
                     'solicitante_id' => $persona ? $persona->id : null,
                     'cedula' => $persona ? $persona->cedula : 'N/A',
                 ]
