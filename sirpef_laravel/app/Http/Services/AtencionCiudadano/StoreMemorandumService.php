@@ -21,7 +21,7 @@ class StoreMemorandumService
     public static function buscarPuntoCuenta(string $numero): JsonResponse
     {
         try {
-            $puntoCuenta = PuntoCuenta::where('numero_punto', $numero)
+            $puntoCuenta = PuntoCuenta::where('numero_punto', 'LIKE', trim($numero))
                 ->with(['registros.eventoPersona.persona'])
                 ->first();
 
