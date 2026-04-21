@@ -109,7 +109,7 @@ const infoPuntoCuenta = reactive({
 const buscarPuntoCuenta = async () => {
   if (!form.numero_punto_cuenta) return
 
-  loadingSearch.ref = true
+  loadingSearch.value = true
   puntoCuentaValidado.value = false
   
   try {
@@ -132,7 +132,7 @@ const buscarPuntoCuenta = async () => {
 const save = async () => {
   saving.value = true
   try {
-    const response = await http.post('atencion-ciudadano/memorandum', form)
+    const response = await http.post('oac/memorandum', form)
     if (response.data.success) {
       Swal.fire('Guardado', 'Memorándum creado correctamente', 'success')
       // Reset form or redirect
