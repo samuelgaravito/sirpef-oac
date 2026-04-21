@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Services\AtencionCiudadano;
+namespace App\Http\Services\Memos;
 
 use App\Models\Memorandum;
 use App\Models\PuntoCuenta;

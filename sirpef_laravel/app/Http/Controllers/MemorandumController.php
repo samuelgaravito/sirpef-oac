@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Services\Memorandum\StoreMemorandumService;
+use App\Http\Services\Memos\StoreMemorandumService;
 use Illuminate\Http\Request;
 
 class MemorandumController extends Controller
