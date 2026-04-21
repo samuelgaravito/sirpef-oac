@@ -28,7 +28,7 @@ class StoreMemorandumService
                 }
 
                 $validated = $request->validate([
-                    'numero_punto_cuenta' => 'required|string|exists:tbl_punto_cuentas,numero',
+                    'numero_punto_cuenta' => 'required|string|exists:tbl_punto_cuenta,numero_punto',
                     'codigo'              => 'required|string',
                     'de'                  => 'required|string',
                     'para'                => 'required|string',
@@ -38,7 +38,7 @@ class StoreMemorandumService
                 ]);
 
                 // Buscar el ID del punto de cuenta basándose en el número ingresado
-                $puntoCuenta = PuntoCuenta::where('numero', $validated['numero_punto_cuenta'])->firstOrFail();
+                $puntoCuenta = PuntoCuenta::where('numero_punto', $validated['numero_punto_cuenta'])->firstOrFail();
 
                 $memorandum = Memorandum::create([
                     'punto_cuenta_id' => $puntoCuenta->id,
@@ -54,7 +54,7 @@ class StoreMemorandumService
                 $auditoria = new Auditoria();
                 $auditoria->user_id = $user->id;
                 $auditoria->evento_id = $user->configUser->evento_activo ?? null;
-                $auditoria->descripcion = "El usuario {$user->name} creó el memorándum {$memorandum->codigo} asociado al Punto de Cuenta N° {$puntoCuenta->numero}.";
+                $auditoria->descripcion = "El usuario {$user->name} creó el memorándum {$memorandum->codigo} asociado al Punto de Cuenta N° {$puntoCuenta->numero_punto}.";
                 $auditoria->save();
 
                 return response()->json([
