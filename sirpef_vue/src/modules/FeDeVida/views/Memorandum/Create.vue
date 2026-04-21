@@ -18,7 +18,7 @@
                   @keyup.enter="buscarPuntoCuenta"
                 >
                 <button 
-                  class="btn btn-outline-secondary" 
+                  class="btn btn-success" 
                   type="button" 
                   @click="buscarPuntoCuenta"
                   :disabled="loadingSearch"
