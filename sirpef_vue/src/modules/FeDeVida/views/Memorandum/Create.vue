@@ -15,6 +15,7 @@
                   v-model="form.numero_punto_cuenta" 
                   class="form-control" 
                   placeholder="Ej: 001-2024"
+                  @keyup.enter="buscarPuntoCuenta"
                 >
                 <button 
                   class="btn btn-outline-secondary" 
@@ -26,6 +27,10 @@
                   <i v-else class="fas fa-spinner fa-spin"></i>
                 </button>
               </div>
+              <small v-if="form.numero_punto_cuenta" :class="puntoCuentaValidado ? 'text-success' : 'text-danger'">
+                <i :class="puntoCuentaValidado ? 'fas fa-check-circle' : 'fas fa-times-circle'"></i>
+                {{ puntoCuentaValidado ? ' Vinculado' : ' No vinculado' }}
+              </small>
             </div>
             <div class="col-md-4">
               <label class="form-label">Solicitante</label>
@@ -119,12 +124,11 @@ const buscarPuntoCuenta = async () => {
       infoPuntoCuenta.solicitante = response.data.data.solicitante
       infoPuntoCuenta.cedula = response.data.data.cedula
       puntoCuentaValidado.value = true
-      Swal.fire('Éxito', 'Punto de Cuenta encontrado', 'success')
     }
   } catch (error) {
     infoPuntoCuenta.solicitante = ''
     infoPuntoCuenta.cedula = ''
-    Swal.fire('Error', error.response?.data?.message || 'No se encontró el Punto de Cuenta', 'error')
+    puntoCuentaValidado.value = false
   } finally {
     loadingSearch.value = false
   }
