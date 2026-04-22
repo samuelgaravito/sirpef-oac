@@ -163,7 +163,7 @@ const buscarPuntoCuenta = async (numero) => {
         props.form.asunto = `Remisión de Punto de Cuenta N° ${pc.numero_punto}.`;
       }
     }
-  } catch (error) {
+  } catch (error: any) {
     props.form.punto_cuenta_id = null;
     const message = error.response?.data?.message || "Error al buscar el punto de cuenta";
     alerta("Atención", message, "info");
@@ -190,6 +190,14 @@ const personasDe = [
   { nombre: 'OLIVER EZEQUIEL RIVAS PAREDES', cargo: 'Director General (E) de la Oficina de Atención al Ciudadano' },
   { nombre: 'RESPONSABLE 2', cargo: 'Cargo del responsable 2' }
 ];
+
+// Se asume que el componente padre maneja el guardado. 
+// Esta función intercepta los errores de respuesta para usar la utilidad alerta.
+
+const handleSaveError = (error: any) => {
+  const message = error.response?.data?.message || "Error al guardar el memorándum";
+  alerta("Atención", message, "error");
+};
 
 const updateCargo = (type) => {
   if (type === 'para') {
