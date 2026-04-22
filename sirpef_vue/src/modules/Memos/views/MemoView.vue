@@ -75,6 +75,10 @@ import MemoForm from '../components/MemoForm.vue';
 import MemoPreview from '../components/MemoPreview.vue';
 import { saveMemorandum } from '../../FeDeVida/services/MemorandumService';
 import { alerta } from '@/utils/alert';
+import { Http } from '@/utils/Http';
+import init from '@/utils/Http/init';
+
+const http = new Http(init);
 
 const viewMode = ref('editor');
 const history = ref([]);
@@ -157,8 +161,19 @@ const deleteFromHistory = (index) => {
   });
 };
 
+const fetchHistory = async () => {
+  try {
+    const response = await http.get('api/oac/memorandum');
+    if (response.data && response.data.success) {
+      history.value = response.data.data;
+    }
+  } catch (error) {
+    console.error("Error al cargar el historial:", error);
+  }
+};
+
 onMounted(() => {
-  // Aquí podrías cargar el historial desde el backend si implementas el index()
+  fetchHistory();
 });
 </script>
 

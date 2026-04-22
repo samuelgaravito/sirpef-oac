@@ -116,4 +116,44 @@ class CreateMemoService
             }
         });
     }
+
+    /**
+     * Get all memorandums with related PuntoCuenta and Persona data.
+     *
+     * @return JsonResponse
+     */
+    public static function index(): JsonResponse
+    {
+        $memos = Memorandum::with(['puntoCuenta.registros.eventoPersona.persona'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $formattedMemos = $memos->map(function ($memo) {
+            $registro = $memo->puntoCuenta->registros->whereNotNull('evento_persona_id')->first();
+            $persona = ($registro && $registro->eventoPersona) ? $registro->eventoPersona->persona : null;
+
+            return [
+                'punto_cuenta_id' => $memo->punto_cuenta_id,
+                'codigo' => $memo->codigo,
+                'para_nombre' => $memo->para,
+                'de_nombre' => $memo->de,
+                'asunto' => $memo->asunto,
+                'motivo' => $memo->cuerpo,
+                'tabla' => [
+                    'pto_cta' => $memo->codigo,
+                    'fecha' => $memo->fecha->format('Y-m-d'),
+                    'solicitante' => $persona ? $persona->nombre_completo : 'N/A',
+                    'cedula' => $persona ? $persona->cedula : 'N/A',
+                    'monto' => '', // These would need to be stored in DB if needed in history
+                    'proveedor' => '',
+                    'total' => ''
+                ]
+            ];
+        });
+
+        return response()->json([
+            'success' => true,
+            'data' => $formattedMemos
+        ]);
+    }
 }

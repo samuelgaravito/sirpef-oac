@@ -17,4 +17,9 @@ class MemorandumController extends Controller
     {
         return CreateMemoService::store($request);
     }
+
+    public function index()
+    {
+        return CreateMemoService::index();
+    }
 }
