@@ -74,6 +74,7 @@ import { ref, onMounted } from 'vue';
 import MemoForm from '../components/MemoForm.vue';
 import MemoPreview from '../components/MemoPreview.vue';
 import { saveMemorandum } from '../../FeDeVida/services/MemorandumService';
+import { alerta } from '@/utils/alert';
 
 const viewMode = ref('editor');
 const history = ref([]);
@@ -111,11 +112,11 @@ const printMemo = () => {
 const saveMemo = async () => {
   // Validaciones
   if (!memoData.value.punto_cuenta_id) {
-    alert('Debe vincular un Punto de Cuenta válido existente en el sistema.');
+    alerta('Atención', 'Debe vincular un Punto de Cuenta válido existente en el sistema.', 'info');
     return;
   }
   if (!memoData.value.asunto || !memoData.value.motivo) {
-    alert('El asunto y el motivo son obligatorios.');
+    alerta('Atención', 'El asunto y el motivo son obligatorios.', 'info');
     return;
   }
 
@@ -135,11 +136,11 @@ const saveMemo = async () => {
     if (response.success) {
       const newEntry = JSON.parse(JSON.stringify(memoData.value));
       history.value.unshift(newEntry);
-      alert('Memorándum guardado exitosamente en el servidor');
+      alerta('Éxito', 'Memorándum guardado exitosamente en el servidor', 'success');
     }
   } catch (error) {
-    console.error(error);
-    alert('Error al guardar el memorándum en el servidor');
+    const message = error.response?.data?.message || 'Error al guardar el memorándum en el servidor';
+    alerta('Atención', message, 'error');
   }
 };
 
@@ -149,9 +150,11 @@ const loadMemo = (memo) => {
 };
 
 const deleteFromHistory = (index) => {
-  if (confirm('¿Está seguro de eliminar este registro?')) {
-    history.value.splice(index, 1);
-  }
+  alerta('Confirmar', '¿Está seguro de eliminar este registro?', 'question').then((result) => {
+    if (result.isConfirmed) {
+      history.value.splice(index, 1);
+    }
+  });
 };
 
 onMounted(() => {
