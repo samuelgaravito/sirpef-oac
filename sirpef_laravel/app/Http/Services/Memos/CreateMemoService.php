@@ -20,41 +20,33 @@ class CreateMemoService
      */
     public static function buscarPuntoCuenta(string $numero): JsonResponse
     {
-        try {
-            $puntoCuenta = PuntoCuenta::where('numero_punto', 'LIKE', trim($numero))
-                ->with(['registros.eventoPersona.persona'])
-                ->first();
+        $puntoCuenta = PuntoCuenta::where('numero_punto', 'LIKE', trim($numero))
+            ->with(['registros.eventoPersona.persona'])
+            ->first();
 
-            if (!$puntoCuenta) {
-                return response()->json([
-                    'message' => 'Punto de Cuenta no encontrado',
-                    'success' => false
-                ], 404);
-            }
-
-            // Intentamos obtener la persona desde el primer registro asociado que tenga la relación completa
-            $registro = $puntoCuenta->registros->whereNotNull('evento_persona_id')->first();
-            $persona = ($registro && $registro->eventoPersona) ? $registro->eventoPersona->persona : null;
-
+        if (!$puntoCuenta) {
             return response()->json([
-                'success' => true,
-                'data' => [
-                    'id' => $puntoCuenta->id,
-                    'numero_punto' => $puntoCuenta->numero_punto,
-                    'fecha' => $puntoCuenta->fecha->format('Y-m-d'),
-                    'solicitante' => $persona ? $persona->nombre_completo : 'No vinculado',
-                    'solicitante_id' => $persona ? $persona->id : null,
-                    'cedula' => $persona ? $persona->cedula : 'N/A',
-                    'asunto' => $puntoCuenta->asunto,
-                ]
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Error al buscar el Punto de Cuenta',
-                'error' => $e->getMessage(),
+                'message' => 'Punto de Cuenta no encontrado',
                 'success' => false
-            ], 500);
+            ], 404);
         }
+
+        // Intentamos obtener la persona desde el primer registro asociado que tenga la relación completa
+        $registro = $puntoCuenta->registros->whereNotNull('evento_persona_id')->first();
+        $persona = ($registro && $registro->eventoPersona) ? $registro->eventoPersona->persona : null;
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'id' => $puntoCuenta->id,
+                'numero_punto' => $puntoCuenta->numero_punto,
+                'fecha' => $puntoCuenta->fecha->format('Y-m-d'),
+                'solicitante' => $persona ? $persona->nombre_completo : 'No vinculado',
+                'solicitante_id' => $persona ? $persona->id : null,
+                'cedula' => $persona ? $persona->cedula : 'N/A',
+                'asunto' => $puntoCuenta->asunto,
+            ]
+        ]);
     }
 
     /**
@@ -74,12 +66,12 @@ class CreateMemoService
 
                 $validated = $request->validate([
                     'numero_punto_cuenta' => 'required|string|exists:tbl_punto_cuenta,numero_punto',
-                    'codigo'              => 'required|string',
-                    'de'                  => 'required|string',
-                    'para'                => 'required|string',
-                    'asunto'              => 'required|string',
-                    'fecha'               => 'required|date',
-                    'cuerpo'              => 'required|string',
+                    'codigo' => 'required|string',
+                    'de' => 'required|string',
+                    'para' => 'required|string',
+                    'asunto' => 'required|string',
+                    'fecha' => 'required|date',
+                    'cuerpo' => 'required|string',
                 ]);
 
                 // Buscar el ID del punto de cuenta basándose en el número ingresado
@@ -87,12 +79,12 @@ class CreateMemoService
 
                 $memorandum = Memorandum::create([
                     'punto_cuenta_id' => $puntoCuenta->id,
-                    'codigo'          => $validated['codigo'],
-                    'de'              => $validated['de'],
-                    'para'            => $validated['para'],
-                    'asunto'          => $validated['asunto'],
-                    'fecha'           => $validated['fecha'],
-                    'cuerpo'          => $validated['cuerpo'],
+                    'codigo' => $validated['codigo'],
+                    'de' => $validated['de'],
+                    'para' => $validated['para'],
+                    'asunto' => $validated['asunto'],
+                    'fecha' => $validated['fecha'],
+                    'cuerpo' => $validated['cuerpo'],
                 ]);
 
                 // Auditoría
@@ -105,7 +97,7 @@ class CreateMemoService
                 return response()->json([
                     'message' => 'Memorándum guardado exitosamente',
                     'success' => true,
-                    'data'    => $memorandum
+                    'data' => $memorandum
                 ], 201);
 
             } catch (\Exception $e) {
