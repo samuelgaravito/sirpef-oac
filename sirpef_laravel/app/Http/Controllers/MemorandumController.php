@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Services\Memos\StoreMemorandumService;
+use App\Http\Services\Memos\CreateMemoService;
 use Illuminate\Http\Request;
 
 class MemorandumController extends Controller
 {
-    public function buscarPuntoCuenta(string $numero)
+    public function buscarPuntoCuenta(Request $request)
     {
-        return StoreMemorandumService::buscarPuntoCuenta($numero);
+        $numero = $request->query('numero');
+        return CreateMemoService::buscarPuntoCuenta($numero);
     }
 
     public function store(Request $request)
     {
-        return StoreMemorandumService::store($request);
+        return CreateMemoService::store($request);
     }
 }
