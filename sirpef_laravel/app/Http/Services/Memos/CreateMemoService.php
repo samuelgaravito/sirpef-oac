@@ -65,7 +65,7 @@ class CreateMemoService
                 }
 
                 $validated = $request->validate([
-                    'numero_punto_cuenta' => 'required|string|exists:tbl_punto_cuenta,numero_punto',
+                    'punto_cuenta_id' => 'required|exists:tbl_punto_cuenta,id',
                     'codigo' => 'required|string',
                     'de' => 'required|string',
                     'para' => 'required|string',
@@ -74,11 +74,10 @@ class CreateMemoService
                     'cuerpo' => 'required|string',
                 ]);
 
-                // Buscar el ID del punto de cuenta basándose en el número ingresado
-                $puntoCuenta = PuntoCuenta::where('numero_punto', $validated['numero_punto_cuenta'])->firstOrFail();
+                $puntoCuenta = PuntoCuenta::findOrFail($validated['punto_cuenta_id']);
 
                 $memorandum = Memorandum::create([
-                    'punto_cuenta_id' => $puntoCuenta->id,
+                    'punto_cuenta_id' => $validated['punto_cuenta_id'],
                     'codigo' => $validated['codigo'],
                     'de' => $validated['de'],
                     'para' => $validated['para'],
