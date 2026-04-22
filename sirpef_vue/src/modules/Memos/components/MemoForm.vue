@@ -134,6 +134,7 @@
 import { ref, watch } from 'vue';
 import { Http } from '@/utils/Http';
 import init from '@/utils/Http/init';
+import { alerta } from '@/utils/alert';
 
 const props = defineProps({
   form: Object
@@ -161,13 +162,11 @@ const buscarPuntoCuenta = async (numero) => {
       if (pc.asunto) {
         props.form.asunto = `Remisión de Punto de Cuenta N° ${pc.numero_punto}.`;
       }
-    } else {
-      props.form.punto_cuenta_id = null;
-      console.warn('Punto de Cuenta no encontrado');
     }
   } catch (error) {
-    console.error("Error buscando punto de cuenta:", error);
     props.form.punto_cuenta_id = null;
+    const message = error.response?.data?.message || "Error al buscar el punto de cuenta";
+    alerta("Atención", message, "info");
   } finally {
     loadingSearch.value = false;
   }
