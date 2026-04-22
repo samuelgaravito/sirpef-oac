@@ -153,14 +153,11 @@ const buscarPuntoCuenta = async (numero) => {
     if (response.data && response.data.success) {
       const pc = response.data.data;
       props.form.punto_cuenta_id = pc.id;
+      props.form.tabla.pto_cta = pc.numero_punto;
       props.form.tabla.fecha = pc.fecha;
-      props.form.tabla.solicitante = pc.presentado_por;
-      props.form.tabla.ci = ''; 
-      props.form.tabla.monto = pc.monto || '';
-      props.form.tabla.proveedor = ''; 
-      props.form.tabla.total = pc.monto || '';
+      props.form.tabla.solicitante = pc.solicitante;
+      props.form.tabla.ci = pc.cedula; 
       
-      // Opcional: Actualizar el asunto si el PC lo trae
       if (pc.asunto) {
         props.form.asunto = `Remisión de Punto de Cuenta N° ${pc.numero_punto}.`;
       }

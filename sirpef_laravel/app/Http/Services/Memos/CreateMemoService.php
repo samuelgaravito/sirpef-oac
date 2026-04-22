@@ -41,9 +41,11 @@ class CreateMemoService
                 'data' => [
                     'id' => $puntoCuenta->id,
                     'numero_punto' => $puntoCuenta->numero_punto,
+                    'fecha' => $puntoCuenta->fecha->format('Y-m-d'),
                     'solicitante' => $persona ? $persona->nombre_completo : 'No vinculado',
                     'solicitante_id' => $persona ? $persona->id : null,
                     'cedula' => $persona ? $persona->cedula : 'N/A',
+                    'asunto' => $puntoCuenta->asunto,
                 ]
             ]);
         } catch (\Exception $e) {
