@@ -69,7 +69,7 @@
         </div>
         <div class="flex flex-col">
           <label class="text-[10px] font-bold text-gray-500">CÉDULA</label>
-          <input v-model="form.tabla.ci" class="border p-2 rounded text-xs focus:ring-1 focus:ring-blue-400 outline-none" />
+          <input v-model="form.tabla.cedula" class="border p-2 rounded text-xs focus:ring-1 focus:ring-blue-400 outline-none" />
         </div>
         <div class="flex flex-col">
           <label class="text-[10px] font-bold text-gray-500">MONTO (BS.)</label>
@@ -146,17 +146,17 @@ const buscarPuntoCuenta = async (numero) => {
   if (!numero) return;
   loadingSearch.value = true;
   try {
-    // Usamos encodeURIComponent dos veces o aseguramos que el backend maneje el slash capturado por el regex '.*'
-    const encodedNumero = encodeURIComponent(numero).replace(/\//g, '%2F');
-    const response = await http.get(`/oac/punto-cuenta-numero/${encodedNumero}`);
+    const response = await http.get(`api/oac/memorandum/buscar-punto-cuenta`, { params: { numero } });
     
+    console.log(response)
+
     if (response.data && response.data.success) {
       const pc = response.data.data;
       props.form.punto_cuenta_id = pc.id;
       props.form.tabla.pto_cta = pc.numero_punto;
       props.form.tabla.fecha = pc.fecha;
       props.form.tabla.solicitante = pc.solicitante;
-      props.form.tabla.ci = pc.cedula; 
+      props.form.tabla.cedula = pc.cedula;
       
       if (pc.asunto) {
         props.form.asunto = `Remisión de Punto de Cuenta N° ${pc.numero_punto}.`;
