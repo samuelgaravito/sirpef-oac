@@ -76,6 +76,15 @@ class CreateMemoService
 
                 $puntoCuenta = PuntoCuenta::findOrFail($validated['punto_cuenta_id']);
 
+                // Verificar si ya existe un memorándum para este punto de cuenta
+                $existe = Memorandum::where('punto_cuenta_id', $validated['punto_cuenta_id'])->first();
+                if ($existe) {
+                    return response()->json([
+                        'message' => "Ya existe un memorándum registrado para el Punto de Cuenta N° {$puntoCuenta->numero_punto} (Código: {$existe->codigo}).",
+                        'success' => false
+                    ], 422);
+                }
+
                 $memorandum = Memorandum::create([
                     'punto_cuenta_id' => $validated['punto_cuenta_id'],
                     'codigo' => $validated['codigo'],
