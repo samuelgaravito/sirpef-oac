@@ -121,9 +121,9 @@ class CreateMemoService
                     'cuerpo' => $validated['cuerpo'],
                     'monto' => $request->monto,
                     'proveedor' => $request->proveedor,
-                    'header_img' => $request->header_img,
-                    'footer_img' => $request->footer_img,
-                    'firma_img' => $request->firma_img,
+                    'header_img' => $request->headerImg,
+                    'footer_img' => $request->footerImg,
+                    'firma_img' => $request->firmaImg,
                 ]);
 
                 // Auditoría
@@ -213,12 +213,24 @@ class CreateMemoService
                     'cuerpo' => 'required|string',
                     'monto' => 'nullable|numeric',
                     'proveedor' => 'nullable|string',
-                    'header_img' => 'nullable|string',
-                    'footer_img' => 'nullable|string',
-                    'firma_img' => 'nullable|string',
+                    'headerImg' => 'nullable|string',
+                    'footerImg' => 'nullable|string',
+                    'firmaImg' => 'nullable|string',
                 ]);
 
-                $memorandum->update($validated);
+                $memorandum->update([
+                    'codigo' => $validated['codigo'],
+                    'de' => $validated['de'],
+                    'para' => $validated['para'],
+                    'asunto' => $validated['asunto'],
+                    'fecha' => $validated['fecha'],
+                    'cuerpo' => $validated['cuerpo'],
+                    'monto' => $validated['monto'],
+                    'proveedor' => $validated['proveedor'],
+                    'header_img' => $request->headerImg,
+                    'footer_img' => $request->footerImg,
+                    'firma_img' => $request->firmaImg,
+                ]);
 
                 // Auditoría
                 $auditoria = new Auditoria();
