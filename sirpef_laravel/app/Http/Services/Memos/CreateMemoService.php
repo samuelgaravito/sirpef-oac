@@ -86,7 +86,7 @@ class CreateMemoService
 
                 $validated = $request->validate([
                     'punto_cuenta_id' => 'required|exists:tbl_punto_cuenta,id',
-                    'codigo' => ['required', 'string', 'regex:/^OAC-M N°\d+\/\d{4}$/'],
+                    'codigo' => ['required', 'string', 'regex:/^OAC-M N.?.?\s?\d+\/\d{4}$/u'],
                     'de' => 'required|string',
                     'para' => 'required|string',
                     'asunto' => 'required|string',
@@ -193,7 +193,7 @@ class CreateMemoService
                 $memorandum = Memorandum::findOrFail($id);
 
                 $validated = $request->validate([
-                    'codigo' => ['required', 'string', 'regex:/^OAC-M N°\d+\/\d{4}$/'],
+                    'codigo' => ['required', 'string', 'regex:/^OAC-M N.?.?\s?\d+\/\d{4}$/u'],
                     'de' => 'required|string',
                     'para' => 'required|string',
                     'asunto' => 'required|string',
