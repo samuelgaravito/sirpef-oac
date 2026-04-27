@@ -50,8 +50,8 @@
         <div class="flex flex-col">
           <label class="text-[10px] font-bold text-gray-500">N° PUNTO CUENTA</label>
           <div class="flex space-x-1">
-            <input v-model="form.tabla.pto_cta" @keyup.enter="buscarPuntoCuenta(form.tabla.pto_cta)" placeholder="000/2026" class="flex-1 border p-2 rounded text-xs focus:ring-1 focus:ring-blue-400 outline-none" />
-            <button @click="buscarPuntoCuenta(form.tabla.pto_cta)" class="bg-blue-600 hover:bg-blue-700 text-white px-2 rounded text-xs transition-colors">
+            <input v-model="form.codigo" @keyup.enter="buscarPuntoCuenta(form.codigo)" placeholder="OAC-M N°000/2026" class="flex-1 border p-2 rounded text-xs focus:ring-1 focus:ring-blue-400 outline-none" />
+            <button @click="buscarPuntoCuenta(form.codigo)" class="bg-blue-600 hover:bg-blue-700 text-white px-2 rounded text-xs transition-colors">
               <span v-if="!loadingSearch">🔍</span>
               <span v-else class="animate-spin inline-block">⏳</span>
             </button>
@@ -165,6 +165,8 @@ const buscarPuntoCuenta = async (numero) => {
         props.form.asunto = `Remisión de Punto de Cuenta N° ${pc.numero_punto}.`;
       }
 
+      props.form.tabla.pto_cta = pc.numero_punto;
+
       // Si ya existe un memo, lo cargamos para editar
       if (pc.existing_memo) {
         Object.assign(props.form, {
@@ -172,7 +174,7 @@ const buscarPuntoCuenta = async (numero) => {
           punto_cuenta_id: pc.id,
           tabla: {
             ...props.form.tabla,
-            pto_cta: pc.existing_memo.codigo || pc.numero_punto,
+            pto_cta: pc.numero_punto,
             fecha: pc.existing_memo.fecha,
             monto: pc.existing_memo.monto,
             total: pc.existing_memo.monto,
@@ -190,7 +192,7 @@ const buscarPuntoCuenta = async (numero) => {
   }
 };
 
-watch(() => props.form.tabla.pto_cta, (newVal) => {
+watch(() => props.form.codigo, (newVal) => {
   // Limpiamos el ID si el campo se vacía
   if (!newVal) {
     props.form.punto_cuenta_id = null;
