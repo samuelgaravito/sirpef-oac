@@ -95,9 +95,9 @@ class CreateMemoService
                     'asunto' => 'required|string',
                     'fecha' => 'required|date',
                     'cuerpo' => 'required|string',
-                    'header_img' => 'nullable|string',
-                    'footer_img' => 'nullable|string',
-                    'firma_img' => 'nullable|string',
+                    'headerImg' => 'nullable|string',
+                    'footerImg' => 'nullable|string',
+                    'firmaImg' => 'nullable|string',
                 ]);
 
                 $puntoCuenta = PuntoCuenta::findOrFail($validated['punto_cuenta_id']);
@@ -121,9 +121,9 @@ class CreateMemoService
                     'cuerpo' => $validated['cuerpo'],
                     'monto' => $request->monto,
                     'proveedor' => $request->proveedor,
-                    'header_img' => $validated['header_img'],
-                    'footer_img' => $validated['footer_img'],
-                    'firma_img' => $validated['firma_img'],
+                    'header_img' => $validated['headerImg'],
+                    'footer_img' => $validated['footerImg'],
+                    'firma_img' => $validated['firmaImg'],
                 ]);
 
                 // Auditoría
@@ -227,9 +227,9 @@ class CreateMemoService
                     'cuerpo' => $validated['cuerpo'],
                     'monto' => $validated['monto'],
                     'proveedor' => $validated['proveedor'],
-                    'header_img' => $request->headerImg,
-                    'footer_img' => $request->footerImg,
-                    'firma_img' => $request->firmaImg,
+                    'header_img' => $validated['headerImg'],
+                    'footer_img' => $validated['footerImg'],
+                    'firma_img' => $validated['firmaImg'],
                 ]);
 
                 // Auditoría
