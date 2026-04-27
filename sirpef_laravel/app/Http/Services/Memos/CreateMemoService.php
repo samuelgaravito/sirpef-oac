@@ -121,9 +121,9 @@ class CreateMemoService
                     'cuerpo' => $validated['cuerpo'],
                     'monto' => $request->monto,
                     'proveedor' => $request->proveedor,
-                    'header_img' => $request->headerImg,
-                    'footer_img' => $request->footerImg,
-                    'firma_img' => $request->firmaImg,
+                    'header_img' => $validated['header_img'],
+                    'footer_img' => $validated['footer_img'],
+                    'firma_img' => $validated['firma_img'],
                 ]);
 
                 // Auditoría
