@@ -80,6 +80,7 @@ class CreateMemoService
      */
     public static function store(Request $request): JsonResponse
     {
+        Log::info('Memo Store Request Data:', $request->all());
         return DB::transaction(function () use ($request) {
             try {
                 $user = auth()->user();
@@ -199,6 +200,7 @@ class CreateMemoService
      */
     public static function update(Request $request, $id): JsonResponse
     {
+        Log::info('Memo Update Request Data:', $request->all());
         return DB::transaction(function () use ($request, $id) {
             try {
                 $user = auth()->user();
