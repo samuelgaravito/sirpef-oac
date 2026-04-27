@@ -21,7 +21,7 @@ class CreateMemoService
     public static function buscarPuntoCuenta(string $numero): JsonResponse
     {
         $puntoCuenta = PuntoCuenta::where('numero_punto', 'LIKE', trim($numero))
-            ->with(['registros.eventoPersona.persona'])
+            ->with(['registros.eventoPersona.persona', 'registros.proveedores'])
             ->first();
 
         if (!$puntoCuenta) {
@@ -31,9 +31,16 @@ class CreateMemoService
             ], 404);
         }
 
-        // Intentamos obtener la persona desde el primer registro asociado que tenga la relación completa
-        $registro = $puntoCuenta->registros->whereNotNull('evento_persona_id')->first();
+        // Intentamos obtener la persona y proveedores desde el primer registro asociado
+        $registro = $puntoCuenta->registros->first();
         $persona = ($registro && $registro->eventoPersona) ? $registro->eventoPersona->persona : null;
+        
+        // Obtenemos el primer proveedor y el monto total si existen
+        $proveedor = ($registro && $registro->proveedores->count() > 0) ? $registro->proveedores->first() : null;
+        $montoTotal = ($registro) ? $registro->proveedores->sum('monto') : 0;
+
+        // Buscamos si ya existe un memorándum para este punto de cuenta
+        $memorandum = $puntoCuenta->memorandum;
 
         return response()->json([
             'success' => true,
@@ -45,6 +52,19 @@ class CreateMemoService
                 'solicitante_id' => $persona ? $persona->id : null,
                 'cedula' => $persona ? $persona->cedula : 'N/A',
                 'asunto' => $puntoCuenta->asunto,
+                'monto' => $montoTotal,
+                'proveedor' => $proveedor ? $proveedor->nombre : 'N/A',
+                'existing_memo' => $memorandum ? [
+                    'id' => $memorandum->id,
+                    'codigo' => $memorandum->codigo,
+                    'de_nombre' => $memorandum->de,
+                    'para_nombre' => $memorandum->para,
+                    'asunto' => $memorandum->asunto,
+                    'fecha' => $memorandum->fecha->format('Y-m-d'),
+                    'motivo' => $memorandum->cuerpo,
+                    'monto' => $memorandum->monto,
+                    'proveedor' => $memorandum->proveedor,
+                ] : null,
             ]
         ]);
     }
@@ -93,6 +113,8 @@ class CreateMemoService
                     'asunto' => $validated['asunto'],
                     'fecha' => $validated['fecha'],
                     'cuerpo' => $validated['cuerpo'],
+                    'monto' => $request->monto,
+                    'proveedor' => $request->proveedor,
                 ]);
 
                 // Auditoría
@@ -129,24 +151,27 @@ class CreateMemoService
             ->get();
 
         $formattedMemos = $memos->map(function ($memo) {
-            $registro = $memo->puntoCuenta->registros->whereNotNull('evento_persona_id')->first();
+            $puntoCuenta = $memo->puntoCuenta;
+            $registro = $puntoCuenta ? $puntoCuenta->registros->whereNotNull('evento_persona_id')->first() : null;
             $persona = ($registro && $registro->eventoPersona) ? $registro->eventoPersona->persona : null;
 
             return [
+                'id' => $memo->id,
                 'punto_cuenta_id' => $memo->punto_cuenta_id,
+                'registro_id' => $registro ? $registro->id : null,
                 'codigo' => $memo->codigo,
                 'para_nombre' => $memo->para,
                 'de_nombre' => $memo->de,
                 'asunto' => $memo->asunto,
                 'motivo' => $memo->cuerpo,
                 'tabla' => [
-                    'pto_cta' => $memo->codigo,
-                    'fecha' => $memo->fecha->format('Y-m-d'),
+                    'pto_cta' => $puntoCuenta ? $puntoCuenta->numero_punto : 'N/A',
+                    'fecha' => $memo->fecha ? $memo->fecha->format('Y-m-d') : 'N/A',
                     'solicitante' => $persona ? $persona->nombre_completo : 'N/A',
                     'cedula' => $persona ? $persona->cedula : 'N/A',
-                    'monto' => '', // These would need to be stored in DB if needed in history
-                    'proveedor' => '',
-                    'total' => ''
+                    'monto' => $memo->monto, 
+                    'proveedor' => $memo->proveedor,
+                    'total' => $memo->monto
                 ]
             ];
         });
@@ -155,5 +180,77 @@ class CreateMemoService
             'success' => true,
             'data' => $formattedMemos
         ]);
+    }
+
+    /**
+     * Update an existing memorandum.
+     */
+    public static function update(Request $request, $id): JsonResponse
+    {
+        return DB::transaction(function () use ($request, $id) {
+            try {
+                $user = auth()->user();
+                $memorandum = Memorandum::findOrFail($id);
+
+                $validated = $request->validate([
+                    'codigo' => 'required|string',
+                    'de' => 'required|string',
+                    'para' => 'required|string',
+                    'asunto' => 'required|string',
+                    'fecha' => 'required|date',
+                    'cuerpo' => 'required|string',
+                    'monto' => 'nullable|numeric',
+                    'proveedor' => 'nullable|string',
+                ]);
+
+                $memorandum->update($validated);
+
+                // Auditoría
+                $auditoria = new Auditoria();
+                $auditoria->user_id = $user->id;
+                $auditoria->descripcion = "El usuario {$user->name} actualizó el memorándum {$memorandum->codigo}.";
+                $auditoria->save();
+
+                return response()->json([
+                    'message' => 'Memorándum actualizado exitosamente',
+                    'success' => true,
+                    'data' => $memorandum
+                ]);
+            } catch (\Exception $e) {
+                return response()->json([
+                    'message' => 'Error al actualizar: ' . $e->getMessage(),
+                    'success' => false
+                ], 500);
+            }
+        });
+    }
+
+    /**
+     * Delete a memorandum.
+     */
+    public static function destroy($id): JsonResponse
+    {
+        try {
+            $user = auth()->user();
+            $memorandum = Memorandum::findOrFail($id);
+            $codigo = $memorandum->codigo;
+            $memorandum->delete();
+
+            // Auditoría
+            $auditoria = new Auditoria();
+            $auditoria->user_id = $user->id;
+            $auditoria->descripcion = "El usuario {$user->name} eliminó el memorándum {$codigo}.";
+            $auditoria->save();
+
+            return response()->json([
+                'message' => 'Memorándum eliminado exitosamente',
+                'success' => true
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error al eliminar: ' . $e->getMessage(),
+                'success' => false
+            ], 500);
+        }
     }
 }
