@@ -106,7 +106,7 @@ onMounted(() => {
         <tbody>
           <tr v-for="memo in filteredMemos" :key="memo.id">
             <td class="text-center font-bold">{{ memo.codigo }}</td>
-            <td class="text-center">{{ memo.tabla.fecha }}</td>
+            <td class="text-center">{{ memo.created_at }}</td>
             <td class="text-center">
               <div class="font-bold">{{ memo.tabla.solicitante }}</div>
               <div class="text-xs text-gray-400">CI: {{ memo.tabla.cedula }}</div>

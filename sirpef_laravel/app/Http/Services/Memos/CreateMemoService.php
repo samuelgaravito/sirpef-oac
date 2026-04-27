@@ -167,6 +167,7 @@ class CreateMemoService
 
             return [
                 'id' => $memo->id,
+                'created_at' => $memo->created_at->format('Y-m-d'),
                 'punto_cuenta_id' => $memo->punto_cuenta_id,
                 'registro_id' => $registro ? $registro->id : null,
                 'codigo' => $memo->codigo,
