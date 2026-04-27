@@ -229,9 +229,9 @@ class CreateMemoService
                     'cuerpo' => $validated['cuerpo'],
                     'monto' => $request->input('tabla.monto') ?? ($request->monto ?? $memorandum->monto),
                     'proveedor' => $request->input('tabla.proveedor') ?? ($request->proveedor ?? $memorandum->proveedor),
-                    'header_img' => $request->has('headerImg') ? $request->headerImg : $memorandum->header_img,
-                    'footer_img' => $request->has('footerImg') ? $request->footerImg : $memorandum->footer_img,
-                    'firma_img' => $request->has('firmaImg') ? $request->firmaImg : $memorandum->firma_img,
+                    'header_img' => $request->headerImg ?? $memorandum->header_img,
+                    'footer_img' => $request->footerImg ?? $memorandum->footer_img,
+                    'firma_img' => $request->firmaImg ?? $memorandum->firma_img,
                 ]);
 
                 // Auditoría
