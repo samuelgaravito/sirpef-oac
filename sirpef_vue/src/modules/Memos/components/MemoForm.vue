@@ -149,8 +149,6 @@ const buscarPuntoCuenta = async (numero) => {
   try {
     const response = await http.get(`api/oac/memorandum/buscar-punto-cuenta`, { params: { numero } });
     
-    console.log(response)
-
     if (response.data && response.data.success) {
       const pc = response.data.data;
       props.form.punto_cuenta_id = pc.id;
@@ -244,7 +242,6 @@ const handleImage = (event, type) => {
       if (type === 'header') props.form.headerImg = e.target.result;
       if (type === 'footer') props.form.footerImg = e.target.result;
       if (type === 'firma') props.form.firmaImg = e.target.result;
-      console.log(`Image loaded for ${type}:`, e.target.result.substring(0, 50) + '...');
     };
     reader.readAsDataURL(file);
   }
