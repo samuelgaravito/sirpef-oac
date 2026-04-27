@@ -20,9 +20,16 @@ class Memorandum extends Model
         'asunto',
         'fecha',
         'cuerpo',
+        'monto',
+        'proveedor',
     ];
 
     protected $casts = [
         'fecha' => 'date',
     ];
+
+    public function puntoCuenta()
+    {
+        return $this->belongsTo(PuntoCuenta::class, 'punto_cuenta_id');
+    }
 }
