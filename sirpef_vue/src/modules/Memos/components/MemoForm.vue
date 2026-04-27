@@ -244,6 +244,7 @@ const handleImage = (event, type) => {
       if (type === 'header') props.form.headerImg = e.target.result;
       if (type === 'footer') props.form.footerImg = e.target.result;
       if (type === 'firma') props.form.firmaImg = e.target.result;
+      console.log(`Image loaded for ${type}:`, e.target.result.substring(0, 50) + '...');
     };
     reader.readAsDataURL(file);
   }

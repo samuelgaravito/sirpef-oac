@@ -122,9 +122,9 @@ class CreateMemoService
                     'cuerpo' => $validated['cuerpo'],
                     'monto' => $request->monto,
                     'proveedor' => $request->proveedor,
-                    'header_img' => $validated['headerImg'] ?? null,
-                    'footer_img' => $validated['footerImg'] ?? null,
-                    'firma_img' => $validated['firmaImg'] ?? null,
+                    'header_img' => $request->headerImg,
+                    'footer_img' => $request->footerImg,
+                    'firma_img' => $request->firmaImg,
                 ]);
 
                 // Auditoría
@@ -229,9 +229,9 @@ class CreateMemoService
                     'cuerpo' => $validated['cuerpo'],
                     'monto' => $validated['monto'],
                     'proveedor' => $validated['proveedor'],
-                    'header_img' => $validated['headerImg'] ?? $memorandum->header_img,
-                    'footer_img' => $validated['footerImg'] ?? $memorandum->footer_img,
-                    'firma_img' => $validated['firmaImg'] ?? $memorandum->firma_img,
+                    'header_img' => $request->has('headerImg') ? $request->headerImg : $memorandum->header_img,
+                    'footer_img' => $request->has('footerImg') ? $request->footerImg : $memorandum->footer_img,
+                    'firma_img' => $request->has('firmaImg') ? $request->firmaImg : $memorandum->firma_img,
                 ]);
 
                 // Auditoría
