@@ -130,8 +130,8 @@
   </div>
 </template>
 
-<script setup>
-import { ref, watch } from 'vue';
+<script lang="ts" setup>
+import { ref, watch, onMounted } from 'vue';
 import { Http } from '@/utils/Http';
 import init from '@/utils/Http/init';
 import { alerta } from '@/utils/alert';
@@ -158,9 +158,27 @@ const buscarPuntoCuenta = async (numero) => {
       props.form.tabla.fecha = pc.fecha;
       props.form.tabla.solicitante = pc.solicitante;
       props.form.tabla.cedula = pc.cedula;
+      props.form.tabla.monto = pc.monto;
+      props.form.tabla.proveedor = pc.proveedor;
       
       if (pc.asunto) {
         props.form.asunto = `Remisión de Punto de Cuenta N° ${pc.numero_punto}.`;
+      }
+
+      // Si ya existe un memo, lo cargamos para editar
+      if (pc.existing_memo) {
+        Object.assign(props.form, {
+          ...pc.existing_memo,
+          punto_cuenta_id: pc.id,
+          tabla: {
+            ...props.form.tabla,
+            pto_cta: pc.existing_memo.codigo || pc.numero_punto,
+            fecha: pc.existing_memo.fecha,
+            monto: pc.existing_memo.monto,
+            total: pc.existing_memo.monto,
+            proveedor: pc.existing_memo.proveedor,
+          }
+        });
       }
     }
   } catch (error: any) {
@@ -179,16 +197,19 @@ watch(() => props.form.tabla.pto_cta, (newVal) => {
   }
 });
 
+watch(() => props.form.tabla.monto, (newVal) => {
+  props.form.tabla.total = newVal;
+});
+
+
 const activeTab = ref('info');
 
 const personasPara = [
   { nombre: 'TAVIANA ELAINE ALQUINZONES FERNÁNDEZ', cargo: 'Directora General (E) de la Oficina de Gestión Administrativa' },
-  { nombre: 'PERSONAL ADMINISTRATIVO 1', cargo: 'Cargo del personal 1' }
 ];
 
 const personasDe = [
   { nombre: 'OLIVER EZEQUIEL RIVAS PAREDES', cargo: 'Director General (E) de la Oficina de Atención al Ciudadano' },
-  { nombre: 'RESPONSABLE 2', cargo: 'Cargo del responsable 2' }
 ];
 
 // Se asume que el componente padre maneja el guardado. 
