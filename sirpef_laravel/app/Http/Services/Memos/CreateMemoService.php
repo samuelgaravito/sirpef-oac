@@ -64,6 +64,9 @@ class CreateMemoService
                     'motivo' => $memorandum->cuerpo,
                     'monto' => $memorandum->monto,
                     'proveedor' => $memorandum->proveedor,
+                    'headerImg' => $memorandum->header_img,
+                    'footerImg' => $memorandum->footer_img,
+                    'firmaImg' => $memorandum->firma_img,
                 ] : null,
             ]
         ]);
@@ -92,6 +95,9 @@ class CreateMemoService
                     'asunto' => 'required|string',
                     'fecha' => 'required|date',
                     'cuerpo' => 'required|string',
+                    'header_img' => 'nullable|string',
+                    'footer_img' => 'nullable|string',
+                    'firma_img' => 'nullable|string',
                 ]);
 
                 $puntoCuenta = PuntoCuenta::findOrFail($validated['punto_cuenta_id']);
@@ -115,6 +121,9 @@ class CreateMemoService
                     'cuerpo' => $validated['cuerpo'],
                     'monto' => $request->monto,
                     'proveedor' => $request->proveedor,
+                    'header_img' => $request->header_img,
+                    'footer_img' => $request->footer_img,
+                    'firma_img' => $request->firma_img,
                 ]);
 
                 // Auditoría
@@ -172,7 +181,10 @@ class CreateMemoService
                     'monto' => $memo->monto, 
                     'proveedor' => $memo->proveedor,
                     'total' => $memo->monto
-                ]
+                ],
+                'headerImg' => $memo->header_img,
+                'footerImg' => $memo->footer_img,
+                'firmaImg' => $memo->firma_img,
             ];
         });
 
@@ -201,6 +213,9 @@ class CreateMemoService
                     'cuerpo' => 'required|string',
                     'monto' => 'nullable|numeric',
                     'proveedor' => 'nullable|string',
+                    'header_img' => 'nullable|string',
+                    'footer_img' => 'nullable|string',
+                    'firma_img' => 'nullable|string',
                 ]);
 
                 $memorandum->update($validated);

@@ -22,6 +22,9 @@ class Memorandum extends Model
         'cuerpo',
         'monto',
         'proveedor',
+        'header_img',
+        'footer_img',
+        'firma_img',
     ];
 
     protected $casts = [
