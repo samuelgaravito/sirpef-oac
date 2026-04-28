@@ -310,6 +310,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     });
 
+});
+
 
 
     Route::prefix('users')->group(function () {
