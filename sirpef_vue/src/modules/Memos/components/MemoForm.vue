@@ -73,7 +73,15 @@
         </div>
         <div class="flex flex-col">
           <label class="text-[10px] font-bold text-gray-500">MONTO (BS.)</label>
-          <input v-model="form.tabla.monto" class="border p-2 rounded text-xs focus:ring-1 focus:ring-blue-400 outline-none" />
+          <input 
+            v-model="form.tabla.monto" 
+            class="border p-2 rounded text-xs focus:ring-1 focus:ring-blue-400 outline-none" 
+            :class="{'border-red-500 ring-1 ring-red-500': form.tabla.monto && String(form.tabla.monto).includes(',')}"
+            placeholder="Ej: 1250.50"
+          />
+          <p v-if="form.tabla.monto && String(form.tabla.monto).includes(',')" class="text-[9px] text-red-600 font-bold mt-1">
+            Use punto (.) para decimales, no comas (,)
+          </p>
         </div>
         <div class="flex flex-col">
           <label class="text-[10px] font-bold text-gray-500">PROVEEDOR</label>
@@ -202,6 +210,9 @@ watch(() => props.form.tabla.pto_cta, (newVal) => {
 });
 
 watch(() => props.form.tabla.monto, (newVal) => {
+  if (newVal && String(newVal).includes(',')) {
+    alerta("Formato inválido", "El monto no debe contener comas (,). Use punto (.) para los decimales.", "warning");
+  }
   props.form.tabla.total = newVal;
 });
 
