@@ -74,9 +74,8 @@ const viewMemo = () => {
 
 const createMemoFromPDC = async () => {
     if (caseData.value?.punto_cuenta?.memorandum) {
-        memoToPrint.value = caseData.value.punto_cuenta.memorandum;
-        await nextTick();
-        window.print();
+        const url = `${import.meta.env.VITE_APP_API_URL}/api/oac/memorandum/${caseData.value.punto_cuenta.memorandum.id}/pdf`;
+        window.open(url, '_blank');
     } else {
         router.push({
             path: '/oac/memos/form',
