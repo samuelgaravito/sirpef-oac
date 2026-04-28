@@ -62,6 +62,20 @@ const openRecaudo = (reca: any) => {
     window.open(reca.path, '_blank', 'noopener, noreferrer');
 }
 
+const viewMemo = () => {
+    router.push({
+        path: '/oac/memos/form',
+        query: { numero: caseData.value.punto_cuenta.numero_punto }
+    });
+};
+
+const createMemoFromPDC = () => {
+    router.push({
+        path: '/oac/memos/form',
+        query: { numero: caseData.value.punto_cuenta.numero_punto }
+    });
+};
+
 </script>
 
 <template>
@@ -312,7 +326,7 @@ const openRecaudo = (reca: any) => {
 
                 </div>
 
-                <nav class="flex justify-between items-center my-10">
+                <nav class="grid gap-5 my-10">
                     <button v-if="!store?.authUser?.isAdmin && caseData.voto == null" @click="sendToCheck"
                         class="w-[60%] py-5 mx-auto bg-[#010c41] block rounded-md font-bold hover:bg-[#1F52C7] text-white cursor-pointer transition-all">
                         Enviar a revisión
@@ -326,10 +340,11 @@ const openRecaudo = (reca: any) => {
 
                     <button v-if="store?.authUser?.isAdmin && caseData?.punto_cuenta?.estatus == true"
                         @click="editPunto"
-                        class="w-[20%] py-5 mx-auto bg-[#010c41] block rounded-md font-bold hover:bg-[#1F52C7] text-white cursor-pointer transition-all">
-                        PDC
+                        class="w-[60%] py-5 mx-auto bg-[#010c41] block rounded-md font-bold hover:bg-[#1F52C7] text-white cursor-pointer transition-all">
+                        Punto de Cuenta
                         <font-awesome-icon icon="pen-to-square" class="ml-1" />
                     </button>
+
                 </nav>
 
             </aside>
@@ -370,7 +385,7 @@ const openRecaudo = (reca: any) => {
 
                 </div>
 
-                <nav class="w-full rounded-full bottom-10 flex items-center justify-left absolute mx-auto py-2">
+                <nav class="w-full rounded-full bottom-10 flex items-center justify-left gap-5 absolute mx-auto py-2">
 
                     <div @click="createPunto"
                         class="border cursor-pointer w-[200px] h-[300px] border-gray-200 rounded-lg overflow-hidden flex flex-col justify-between shadow-md hover:shadow-2xl transition-shadow duration-300 bg-white">
@@ -392,6 +407,27 @@ const openRecaudo = (reca: any) => {
                         </div>
                     </div>
 
+
+
+                    <div @click="createMemoFromPDC"
+                        class="border cursor-pointer w-[200px] h-[300px] border-gray-200 rounded-lg overflow-hidden flex flex-col justify-between shadow-md hover:shadow-2xl transition-shadow duration-300 bg-white">
+                        <div class="px-4 py-3 bg-gray-50 border-b border-gray-200">
+                            <h3 class="font-medium text-gray-700 capitalize truncate">Memorándum</h3>
+                        </div>
+
+                        <div class="flex justify-center items-center p-4 overflow-hidden min-h-[150px]">
+                            <img class="max-w-full max-h-[180px] object-contain rounded"
+                                :src="`/memo.png`"
+                                alt="" />
+                        </div>
+                        <div class="px-4 py-3 border-t border-gray-200 text-center">
+                            <button
+                                class="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition-colors duration-200">
+                                <font-awesome-icon icon="eye" />
+                                {{ caseData?.punto_cuenta?.memorandum ? 'Ver Memorándum' : 'Crear Memorándum' }}
+                            </button>
+                        </div>
+                    </div>
                 </nav>
             </div>
 
