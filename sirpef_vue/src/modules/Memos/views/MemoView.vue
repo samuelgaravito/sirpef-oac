@@ -135,14 +135,14 @@ const saveMemo = async () => {
       cuerpo: memoData.value.motivo
     };
 
-    const response = await saveMemorandum(payload);
+    const response = await http.post('api/oac/memorandum', payload);
     
-    if (response.success) {
+    if (response.data && response.data.success) {
       const newEntry = JSON.parse(JSON.stringify(memoData.value));
       history.value.unshift(newEntry);
       alerta('Éxito', 'Memorándum guardado exitosamente en el servidor', 'success');
     }
-  } catch (error) {
+  } catch (error: any) {
     const message = error.response?.data?.message || 'Error al guardar el memorándum en el servidor';
     alerta('Atención', message, 'error');
   }
