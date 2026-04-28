@@ -69,11 +69,10 @@
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { ref, onMounted } from 'vue';
 import MemoForm from '../components/MemoForm.vue';
 import MemoPreview from '../components/MemoPreview.vue';
-import { saveMemorandum } from '../../FeDeVida/services/MemorandumService';
 import { alerta } from '@/utils/alert';
 import { Http } from '@/utils/Http';
 import init from '@/utils/Http/init';
