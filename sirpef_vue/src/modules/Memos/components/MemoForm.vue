@@ -155,7 +155,7 @@ const buscarPuntoCuenta = async (numero) => {
   if (!numero) return;
   loadingSearch.value = true;
   try {
-    const response = await http.get(`api/oac/memorandum/buscar-punto-cuenta`, { params: { numero } });
+    const response = await http.get(`api/oac/memorandum/buscar-punto-cuenta/${numero}`);
     
     if (response.data && response.data.success) {
       const pc = response.data.data;
@@ -207,7 +207,7 @@ watch(() => props.form.tabla.pto_cta, (newVal) => {
   if (newVal) {
     props.form.codigo = `OAC-M N°${newVal}`;
   }
-});
+}, { immediate: true });
 
 watch(() => props.form.tabla.monto, (newVal) => {
   if (newVal && String(newVal).includes(',')) {
