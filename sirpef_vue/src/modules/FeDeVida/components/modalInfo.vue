@@ -70,10 +70,15 @@ const viewMemo = () => {
 };
 
 const createMemoFromPDC = () => {
-    router.push({
-        path: '/oac/memos/form',
-        query: { numero: caseData.value.punto_cuenta.numero_punto }
-    });
+    if (caseData.value?.punto_cuenta?.memorandum) {
+        const id = caseData.value.punto_cuenta.memorandum.id;
+        window.open(`${import.meta.env.VITE_APP_API_URL}/api/oac/memorandum/${id}/pdf`, '_blank', 'noopener, noreferrer');
+    } else {
+        router.push({
+            path: '/oac/memos/form',
+            query: { numero: caseData.value.punto_cuenta.numero_punto }
+        });
+    }
 };
 
 </script>
@@ -422,8 +427,8 @@ const createMemoFromPDC = () => {
                         </div>
                         <div class="px-4 py-3 border-t border-gray-200 text-center">
                             <button
-                                class="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition-colors duration-200">
-                                <font-awesome-icon icon="eye" />
+                                class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded transition-colors duration-200">
+                                <font-awesome-icon :icon="caseData?.punto_cuenta?.memorandum ? 'file-pdf' : 'eye'" />
                                 {{ caseData?.punto_cuenta?.memorandum ? 'Ver Memorándum' : 'Crear Memorándum' }}
                             </button>
                         </div>
