@@ -4,6 +4,8 @@ import { onMounted, onUnmounted } from 'vue';
 import useModalInfo from '../composables/useModalInfo';
 import CardHistory from './cardHistory.vue';
 import { useRoute, useRouter } from 'vue-router';
+import { nextTick, ref } from 'vue';
+import MemoPreview from '../../Memos/components/MemoPreview.vue';
 
 const {
     caseData,
@@ -29,6 +31,7 @@ const $emit = defineEmits(['close'])
 
 const route = useRoute()
 const router = useRouter()
+const memoToPrint = ref(null);
 
 const hidden = (e?: PointerEvent) => {
     if(route.name == 'case-fedevida') router.back()
@@ -69,10 +72,11 @@ const viewMemo = () => {
     });
 };
 
-const createMemoFromPDC = () => {
+const createMemoFromPDC = async () => {
     if (caseData.value?.punto_cuenta?.memorandum) {
-        const id = caseData.value.punto_cuenta.memorandum.id;
-        window.open(`${import.meta.env.VITE_APP_API_URL}/api/oac/memorandum/${id}/pdf`, '_blank', 'noopener, noreferrer');
+        memoToPrint.value = caseData.value.punto_cuenta.memorandum;
+        await nextTick();
+        window.print();
     } else {
         router.push({
             path: '/oac/memos/form',
@@ -438,6 +442,11 @@ const createMemoFromPDC = () => {
 
         </article>
     </section>
+
+    <!-- Hidden Printable Area -->
+    <div v-if="memoToPrint" id="memo-printable-hidden" class="hidden">
+        <MemoPreview :data="memoToPrint" />
+    </div>
 </template>
 
 <style scoped>
@@ -466,5 +475,21 @@ const createMemoFromPDC = () => {
     background-image: url(/Bg-welcome.svg) !important;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #memo-printable-hidden, #memo-printable-hidden * {
+    visibility: visible;
+  }
+  #memo-printable-hidden {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    display: block !important;
+  }
 }
 </style>
