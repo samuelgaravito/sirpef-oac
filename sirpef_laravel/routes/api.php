@@ -310,10 +310,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     });
 
-});
-
-
-
     Route::prefix('users')->group(function () {
         Route::get('/auth', AuthController::class);
         Route::get('/auth-menu', AuthMenuController::class);
