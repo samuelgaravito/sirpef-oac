@@ -7,9 +7,8 @@ use Illuminate\Http\Request;
 
 class MemorandumController extends Controller
 {
-    public function buscarPuntoCuenta(Request $request)
+    public function buscarPuntoCuenta(string $numero)
     {
-        $numero = $request->query('numero');
         return CreateMemoService::buscarPuntoCuenta($numero);
     }
 
