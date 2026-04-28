@@ -38,6 +38,12 @@ const routes: Array<RouteRecordRaw> = [
     path: "/oac/memos",
     name: "oac.memos",
     meta: { middleware: [auth] },
+    component: () => import("@/modules/Memos/views/MemoListView.vue").then(m => m.default)
+  },
+  {
+    path: "/oac/memos/form",
+    name: "oac.memos.form",
+    meta: { middleware: [auth] },
     component: () => import("@/modules/Memos/views/MemoView.vue").then(m => m.default)
   },
 
