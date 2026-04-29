@@ -147,30 +147,16 @@ const saveMemo = async () => {
       ? await http.put(`api/oac/memorandum/${memoData.value.id}`, payload)
       : await http.post('api/oac/memorandum', payload);
     
-    const isSuccess = response && (
-      response.status === 200 || 
-      response.status === 201 || 
-      (response.data && response.data.success === true)
-    );
-
-    if (isSuccess) {
-      alerta('Éxito', 'Memorándum guardado exitosamente en el servidor', 'success').then(() => {
+    if (response && (response.status === 200 || response.status === 201)) {
+      alerta('Éxito', 'Memorándum guardado exitosamente', 'success').then(() => {
         router.push('/oac/memos');
       });
     } else {
-      throw new Error('Respuesta del servidor no indica éxito');
+      const errorMsg = response?.data?.message || 'Error en la respuesta del servidor';
+      alerta('Atención', errorMsg, 'error');
     }
   } catch (error: any) {
-    // Si la base de datos se guardó, pero axios lanzó error (ej. por interceptores)
-    // verificamos si al menos recibimos un status exitoso
-    if (error.response && (error.response.status === 200 || error.response.status === 201)) {
-       alerta('Éxito', 'Memorándum guardado exitosamente en el servidor', 'success').then(() => {
-        router.push('/oac/memos');
-      });
-      return;
-    }
-
-    const message = error.response?.data?.message || error.message || 'Error al guardar el memorándum en el servidor';
+    const message = error.response?.data?.message || error.message || 'Error al procesar la solicitud';
     alerta('Atención', message, 'error');
   }
 };
