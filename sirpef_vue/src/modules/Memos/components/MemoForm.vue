@@ -181,6 +181,9 @@ const buscarPuntoCuenta = async (numero) => {
           header_img: pc.existing_memo.header_img,
           footer_img: pc.existing_memo.footer_img,
           firma_img: pc.existing_memo.firma_img,
+          de_nombre: pc.existing_memo.de,
+          para_nombre: pc.existing_memo.para,
+          motivo: pc.existing_memo.cuerpo,
           tabla: {
             ...props.form.tabla,
             pto_cta: pc.numero_punto,
@@ -253,9 +256,10 @@ const handleImage = (event, type) => {
   if (file) {
     const reader = new FileReader();
     reader.onload = (e) => {
-      if (type === 'header') props.form.header_img = e.target.result;
-      if (type === 'footer') props.form.footer_img = e.target.result;
-      if (type === 'firma') props.form.firma_img = e.target.result;
+      const base64String = e.target.result;
+      if (type === 'header') props.form.header_img = base64String;
+      if (type === 'footer') props.form.footer_img = base64String;
+      if (type === 'firma') props.form.firma_img = base64String;
     };
     reader.readAsDataURL(file);
   }
