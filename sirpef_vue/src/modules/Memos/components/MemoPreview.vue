@@ -1,8 +1,8 @@
 <template>
   <div class="memo-paper bg-white print:shadow-none mx-auto p-[1.5cm] pt-[1cm] text-black text-[12pt] font-arial leading-snug w-[21.59cm] min-h-[27.94cm] relative flex flex-col">
     <!-- Header Image -->
-    <div v-if="data.headerImg" class="mb-4">
-      <img :src="data.headerImg" class="w-full h-auto" />
+    <div v-if="data.header_img" class="mb-4">
+      <img :src="data.header_img" class="w-full h-auto" />
     </div>
 
     <!-- Metadata -->
@@ -83,8 +83,8 @@
       <div class="mb-10 lowercase">Atentamente,</div>
       
       <!-- Digital Signature Image -->
-      <div v-if="data.firmaImg" class="absolute left-1/2 -translate-x-1/2 -top-6 w-36 h-auto pointer-events-none z-0">
-        <img :src="data.firmaImg" class="w-full opacity-90" />
+      <div v-if="data.firma_img" class="absolute left-1/2 -translate-x-1/2 -top-6 w-36 h-auto pointer-events-none z-0">
+        <img :src="data.firma_img" class="w-full opacity-90" />
       </div>
 
       <div class="font-bold relative z-10">{{ data.de_nombre }}</div>
@@ -96,8 +96,8 @@
 
 
     <!-- Footer Image -->
-    <div v-if="data.footerImg" class="mt-auto absolute bottom-4 left-[1.5cm] right-[1.5cm]">
-      <img :src="data.footerImg" class="w-full h-auto" />
+    <div v-if="data.footer_img" class="mt-auto absolute bottom-4 left-[1.5cm] right-[1.5cm]">
+      <img :src="data.footer_img" class="w-full h-auto" />
     </div>
   </div>
 </template>

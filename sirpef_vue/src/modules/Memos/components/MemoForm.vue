@@ -250,9 +250,9 @@ const handleImage = (event, type) => {
   if (file) {
     const reader = new FileReader();
     reader.onload = (e) => {
-      if (type === 'header') props.form.headerImg = e.target.result;
-      if (type === 'footer') props.form.footerImg = e.target.result;
-      if (type === 'firma') props.form.firmaImg = e.target.result;
+      if (type === 'header') props.form.header_img = e.target.result;
+      if (type === 'footer') props.form.footer_img = e.target.result;
+      if (type === 'firma') props.form.firma_img = e.target.result;
     };
     reader.readAsDataURL(file);
   }
