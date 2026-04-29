@@ -71,6 +71,7 @@
 
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import MemoForm from '../components/MemoForm.vue';
 import MemoPreview from '../components/MemoPreview.vue';
 import { alerta } from '@/utils/alert';
@@ -78,6 +79,7 @@ import { Http } from '@/utils/Http';
 import init from '@/utils/Http/init';
 
 const http = new Http(init);
+const router = useRouter();
 
 const viewMode = ref('editor');
 const history = ref([]);
@@ -148,7 +150,9 @@ const saveMemo = async () => {
     if (response.data && response.data.success) {
       const newEntry = JSON.parse(JSON.stringify(memoData.value));
       history.value.unshift(newEntry);
-      alerta('Éxito', 'Memorándum guardado exitosamente en el servidor', 'success');
+      alerta('Éxito', 'Memorándum guardado exitosamente en el servidor', 'success').then(() => {
+        router.push('/oac/memos');
+      });
     }
   } catch (error: any) {
     const message = error.response?.data?.message || 'Error al guardar el memorándum en el servidor';
