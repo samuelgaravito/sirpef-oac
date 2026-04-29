@@ -17,6 +17,16 @@ class MemorandumController extends Controller
         return CreateMemoService::store($request);
     }
 
+    public function update(Request $request, $id)
+    {
+        return CreateMemoService::update($request, $id);
+    }
+
+    public function destroy($id)
+    {
+        return CreateMemoService::destroy($id);
+    }
+
     public function index()
     {
         return CreateMemoService::index();
