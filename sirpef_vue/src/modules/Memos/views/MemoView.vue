@@ -83,8 +83,9 @@ const viewMode = ref('editor');
 const history = ref([]);
 
 const memoData = ref({
-  headerImg: null,
-  footerImg: null,
+  header_img: null,
+  footer_img: null,
+  firma_img: null,
   punto_cuenta_id: null,
   codigo: 'OAC-M N°000/2026',
   fecha: '01/01/2026',
@@ -131,7 +132,12 @@ const saveMemo = async () => {
       para: memoData.value.para_nombre,
       asunto: memoData.value.asunto,
       fecha: memoData.value.tabla.fecha,
-      cuerpo: memoData.value.motivo
+      cuerpo: memoData.value.motivo,
+      monto: memoData.value.tabla.monto,
+      proveedor: memoData.value.tabla.proveedor,
+      header_img: memoData.value.header_img,
+      footer_img: memoData.value.footer_img,
+      firma_img: memoData.value.firma_img
     };
 
     const response = await http.post('api/oac/memorandum', payload);
