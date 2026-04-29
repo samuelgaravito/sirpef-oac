@@ -147,10 +147,12 @@ const saveMemo = async () => {
       ? await http.put(`api/oac/memorandum/${memoData.value.id}`, payload)
       : await http.post('api/oac/memorandum', payload);
     
-    if (response && (response.status === 200 || response.status === 201)) {
-      alerta('Éxito', 'Memorándum guardado exitosamente', 'success').then(() => {
-        router.push('/oac/memos');
-      });
+    const status = response?.status;
+    const success = response?.data?.success;
+
+    if (status === 200 || status === 201 || success === true) {
+      await alerta('Éxito', 'Memorándum guardado exitosamente', 'success');
+      router.push('/oac/memos');
     } else {
       const errorMsg = response?.data?.message || 'Error en la respuesta del servidor';
       alerta('Atención', errorMsg, 'error');
