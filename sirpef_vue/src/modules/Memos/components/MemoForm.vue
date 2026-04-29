@@ -178,6 +178,9 @@ const buscarPuntoCuenta = async (numero) => {
         Object.assign(props.form, {
           ...pc.existing_memo,
           punto_cuenta_id: pc.id,
+          header_img: pc.existing_memo.header_img,
+          footer_img: pc.existing_memo.footer_img,
+          firma_img: pc.existing_memo.firma_img,
           tabla: {
             ...props.form.tabla,
             pto_cta: pc.numero_punto,
