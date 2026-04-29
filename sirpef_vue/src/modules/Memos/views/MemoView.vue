@@ -135,9 +135,9 @@ const saveMemo = async () => {
       cuerpo: memoData.value.motivo,
       monto: memoData.value.tabla.monto,
       proveedor: memoData.value.tabla.proveedor,
-      header_img: memoData.value.header_img,
-      footer_img: memoData.value.footer_img,
-      firma_img: memoData.value.firma_img
+      header_img: memoData.value.header_img || null,
+      footer_img: memoData.value.footer_img || null,
+      firma_img: memoData.value.firma_img || null
     };
 
     const response = await http.post('api/oac/memorandum', payload);

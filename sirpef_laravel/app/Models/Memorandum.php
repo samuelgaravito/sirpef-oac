@@ -29,6 +29,9 @@ class Memorandum extends Model
 
     protected $casts = [
         'fecha' => 'date',
+        'header_img' => 'string',
+        'footer_img' => 'string',
+        'firma_img' => 'string',
     ];
 
     public function puntoCuenta()
