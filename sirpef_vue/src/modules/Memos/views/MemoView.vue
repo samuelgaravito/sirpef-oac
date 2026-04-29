@@ -83,6 +83,7 @@ const viewMode = ref('editor');
 const history = ref([]);
 
 const memoData = ref({
+  id: null,
   header_img: null,
   footer_img: null,
   firma_img: null,
@@ -140,7 +141,9 @@ const saveMemo = async () => {
       firma_img: memoData.value.firma_img || null
     };
 
-    const response = await http.post('api/oac/memorandum', payload);
+    const response = memoData.value.id 
+      ? await http.put(`api/oac/memorandum/${memoData.value.id}`, payload)
+      : await http.post('api/oac/memorandum', payload);
     
     if (response.data && response.data.success) {
       const newEntry = JSON.parse(JSON.stringify(memoData.value));
@@ -179,6 +182,19 @@ const fetchHistory = async () => {
 
 onMounted(() => {
   fetchHistory();
+  const savedMemo = localStorage.getItem('editing_memo');
+  if (savedMemo) {
+    const parsed = JSON.parse(savedMemo);
+    memoData.value = {
+      ...memoData.value,
+      ...parsed,
+      // Mapear campos que vienen en 'tabla' si es necesario
+      de_nombre: parsed.de_nombre || parsed.de,
+      para_nombre: parsed.para_nombre || parsed.para,
+      motivo: parsed.motivo || parsed.cuerpo
+    };
+    localStorage.removeItem('editing_memo');
+  }
 });
 </script>
 

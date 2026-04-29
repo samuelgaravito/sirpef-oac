@@ -44,7 +44,7 @@ const filteredMemos = computed(() => {
 
 const editMemo = (memo) => {
   localStorage.setItem('editing_memo', JSON.stringify(memo));
-  router.push('/oac/memos/form');
+  router.push({ path: '/oac/memos/form', query: { id: memo.id } });
 };
 
 const deleteMemo = async (id) => {
