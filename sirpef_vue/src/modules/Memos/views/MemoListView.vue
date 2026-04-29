@@ -26,19 +26,19 @@ const fetchMemos = async () => {
     }
   } catch (error) {
     console.error("Error al cargar los memorándums:", error);
-    alerta('Error', 'No se pudo cargar el listado de memorándums', 'error');
   } finally {
     loading.value = false;
   }
 };
 
 const filteredMemos = computed(() => {
+  if (!memos.value) return [];
   if (!search.value) return memos.value;
   const s = search.value.toLowerCase();
   return memos.value.filter(m => 
-    m.codigo.toLowerCase().includes(s) || 
-    m.tabla.solicitante.toLowerCase().includes(s) ||
-    m.asunto.toLowerCase().includes(s)
+    (m.codigo?.toLowerCase().includes(s)) || 
+    (m.tabla?.solicitante?.toLowerCase().includes(s)) ||
+    (m.asunto?.toLowerCase().includes(s))
   );
 });
 
