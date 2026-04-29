@@ -64,9 +64,9 @@ class CreateMemoService
                     'motivo' => $memorandum->cuerpo,
                     'monto' => $memorandum->monto,
                     'proveedor' => $memorandum->proveedor,
-                    'headerImg' => $memorandum->header_img,
-                    'footerImg' => $memorandum->footer_img,
-                    'firmaImg' => $memorandum->firma_img,
+                    'header_img' => $memorandum->header_img,
+                    'footer_img' => $memorandum->footer_img,
+                    'firma_img' => $memorandum->firma_img,
                 ] : null,
             ]
         ]);
