@@ -96,9 +96,9 @@ class CreateMemoService
                     'asunto' => 'required|string',
                     'fecha' => 'required|date',
                     'cuerpo' => 'required|string',
-                    'headerImg' => 'nullable|string',
-                    'footerImg' => 'nullable|string',
-                    'firmaImg' => 'nullable|string',
+                    'header_img' => 'nullable|string',
+                    'footer_img' => 'nullable|string',
+                    'firma_img' => 'nullable|string',
                 ]);
 
                 $puntoCuenta = PuntoCuenta::findOrFail($validated['punto_cuenta_id']);
@@ -122,9 +122,9 @@ class CreateMemoService
                     'cuerpo' => $validated['cuerpo'],
                     'monto' => $request->input('tabla.monto') ?? $request->monto,
                     'proveedor' => $request->input('tabla.proveedor') ?? $request->proveedor,
-                    'header_img' => $request->headerImg,
-                    'footer_img' => $request->footerImg,
-                    'firma_img' => $request->firmaImg,
+                    'header_img' => $validated['header_img'] ?? null,
+                    'footer_img' => $validated['footer_img'] ?? null,
+                    'firma_img' => $validated['firma_img'] ?? null,
                 ]);
 
                 // Auditoría
@@ -216,9 +216,9 @@ class CreateMemoService
                     'cuerpo' => 'required|string',
                     'monto' => 'nullable|numeric',
                     'proveedor' => 'nullable|string',
-                    'headerImg' => 'nullable|string',
-                    'footerImg' => 'nullable|string',
-                    'firmaImg' => 'nullable|string',
+                    'header_img' => 'nullable|string',
+                    'footer_img' => 'nullable|string',
+                    'firma_img' => 'nullable|string',
                 ]);
 
                 $memorandum->update([
@@ -230,9 +230,9 @@ class CreateMemoService
                     'cuerpo' => $validated['cuerpo'],
                     'monto' => $request->input('tabla.monto') ?? ($request->monto ?? $memorandum->monto),
                     'proveedor' => $request->input('tabla.proveedor') ?? ($request->proveedor ?? $memorandum->proveedor),
-                    'header_img' => $request->headerImg ?? $memorandum->header_img,
-                    'footer_img' => $request->footerImg ?? $memorandum->footer_img,
-                    'firma_img' => $request->firmaImg ?? $memorandum->firma_img,
+                    'header_img' => $validated['header_img'] ?? $memorandum->header_img,
+                    'footer_img' => $validated['footer_img'] ?? $memorandum->footer_img,
+                    'firma_img' => $validated['firma_img'] ?? $memorandum->firma_img,
                 ]);
 
                 // Auditoría
