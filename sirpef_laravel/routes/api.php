@@ -80,8 +80,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/findByCedula/{cedula}', [AtencionCiudadanoController::class, 'findByCedula']);
 
     // Memorandum
+    Route::get('/memorandum', [MemorandumController::class, 'index']);
     Route::get('/memorandum/buscar-punto-cuenta/{numero}', [MemorandumController::class, 'buscarPuntoCuenta'])->where('numero', '.*');
     Route::post('/memorandum', [MemorandumController::class, 'store']);
+    Route::put('/memorandum/{id}', [MemorandumController::class, 'update']);
+    Route::delete('/memorandum/{id}', [MemorandumController::class, 'destroy']);
 
     //crud tipo de casos
     Route::get('/tipoCaso', [TipoCasoController::class, 'index']);
