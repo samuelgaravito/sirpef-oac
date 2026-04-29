@@ -147,9 +147,7 @@ const saveMemo = async () => {
       ? await http.put(`api/oac/memorandum/${memoData.value.id}`, payload)
       : await http.post('api/oac/memorandum', payload);
     
-    if (response.data && response.data.success) {
-      const newEntry = JSON.parse(JSON.stringify(memoData.value));
-      history.value.unshift(newEntry);
+    if (response.status === 200 || response.status === 201 || (response.data && response.data.success)) {
       alerta('Éxito', 'Memorándum guardado exitosamente en el servidor', 'success').then(() => {
         router.push('/oac/memos');
       });
